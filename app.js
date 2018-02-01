@@ -3,7 +3,6 @@ var path = require('path');
 var passport = require("passport")
 var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook');
-var sassMiddleware = require('node-sass-middleware');
 var session = require("express-session");
 var infoAPI = require("./routes/apiInfo.js");
 
@@ -42,12 +41,7 @@ app.enable('trust proxy')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(sassMiddleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: true, // true = .sass and false = .scss
-  sourceMap: true
-}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/checkparameter', checkParameter);
