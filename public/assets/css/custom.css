@@ -1,0 +1,297 @@
+#updateDB{
+	background: #a0e0bf;
+	border:  1px solid #fff;
+	border-radius: .3em;
+	padding: 0 1em;
+	color: #253138;
+	margin-left: 5%;
+}
+#updateDB:hover{
+	background: #fff;
+	border: 1px solid #a0e0bf;
+	color: #a0e0bf;
+}
+.search{
+	margin-left: 0%;
+	height: 2.4em;
+	border-radius: .3em;
+	border: 1px solid #fff;
+	color: #253138;
+	padding:  0 1em;
+	background: #a0e0bf;
+}
+#btn-logout-icon:hover{
+	color: #716bf9;
+}
+.panel-title{
+	display: none;
+}
+.panel-heading{
+	flex-wrap: wrap;
+}
+#updateDB{
+	height: 2.4em;
+	margin-left: 0em;
+	margin-right: 0em;
+}
+#updateDB:hover{
+	background: #2f3e47;
+}
+.btn-cust{
+	margin-right: 2em;
+	padding:  0;
+	margin: 0;
+	line-height: 1.55em;
+	width: 100%;
+}
+.network-ip{
+	padding-left: 1em;
+	color: #111;
+	width: 100%;
+}
+.network-sel{
+	padding: .2em 1em;
+	width: 100%;
+	color: #111;
+}
+#renderManagerAPI{
+	padding-top: 1em;
+	border-top: 1px solid #fff;
+}
+.headingfix{
+	justify-content: space-between;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.response{
+	display: flex;
+	flex-wrap: nowrap;
+}
+.net-content{
+	display: flex;
+}
+.net-content-input{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.after-ip{
+	width: 20%;
+}
+#btnAddNetWork{
+	width: 10%;
+	line-height: 3.175em;
+	background:  #188ae2;
+	border:  none;
+	color: #fff;
+	border-bottom: 1px solid;
+	width: 100%;
+}
+.icon-content{
+	text-align: center;
+	color: #fff;
+}
+.btn-content{
+	background: #188ae2;
+	border: none;
+	margin: auto;
+	display: block;
+}
+.btn-content-copy,.btn-content-del{
+	width: 18px;
+	padding-right: 1.4em;
+	height: 20px;
+}
+.btn-content-copy::after{
+	content: "\f0c5";
+}
+.btn-content-del::after{
+	content: "\f014";
+}
+.btn-content-edit{
+	width: 20px;
+	padding-right: 1.4em;
+	height: 20px;
+}
+.btn-content-edit::after{
+	content: "\f044";
+}
+.select-drop-blue{
+	width: 100%;
+    background: #188ae2;
+    color: #fff;
+    border: none;
+	padding: 0.5em;
+    margin-bottom: .4em;
+}
+#datatable-responsive_filter{
+	width: 100%;
+	text-align: center;
+}
+.downloadbtn{
+	margin: 0.4em 0;
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
+@media screen and (min-width: 678px){
+	.btn-cust{
+		line-height: 3.1em;
+	}
+}
+@media screen and (min-width: 690px){
+	.btn-cust{
+		line-height: 3.2em;
+	}
+}
+@media screen and (min-width: 720px){
+	.headingfix{
+		width: 78%;
+	}
+	.sel-country{
+		width: 35.65%;
+	}
+	.sel-OS{
+		width: 10%;
+	}
+	.sel-result{
+		width: 12%;
+	}
+	.sel-mem{
+		width: 36.6%;
+	}
+	.downloadbtn{
+		width: 100%;
+	}
+}
+@media screen and (min-width: 1024px){
+	.headingfix{
+		width: 70%;
+	}
+	.sel-mem{
+		width: 37%;
+	}
+}
+@media screen and (min-width: 1200px) {
+	.panel-title{
+		display: flex;
+		flex-grow: 1;
+		width: 50%;
+	}
+	#updateDB{
+		margin-left: 1em;
+		margin-right: 1em;
+	}
+	.network-ip, .network-sel{
+		width: 50%;
+	}
+}
+@media screen and (min-width: 1360px){
+	.headingfix{
+		flex-grow: 1;
+	}
+	.panel-title{
+		flex-grow: 0;
+	}
+}
+@media screen and (min-width: 1365px){
+	.net-content{
+		height: 3.5em;
+	}
+	.headingfix{
+		width: 41%;
+	}
+	.network-ip{
+		padding: 0 1em;
+		width: 29%;
+	}
+	.network-sel{
+		padding: 0 1em;
+		width: 13%;
+	}
+	.net-content-input{
+		flex-wrap: nowrap;
+	}
+	#btnAddNetWork{
+		border-bottom: none;
+		border-right: 1px solid #fff;
+		padding: 0 1em;
+	}
+	.sel-country{
+		width: 22%;
+	}
+	.sel-OS{
+		width: 7%;
+	}
+	.sel-result{
+		width: 8%;
+	}
+	.sel-mem{
+		width: 45.74%;
+	}
+	.sel-addOffer{
+		width: 12%;
+		margin-left: 1em;
+	}
+	.downloadbtn{
+		margin-right: 0px;
+		margin-bottom: 1em;
+		width: 12%;
+		padding-right: 1.5em;
+	}
+}
+@media screen and (min-width: 1400px){
+	.net-content{
+		height: 2.5em;
+	}
+	.net-content-input{
+		width: 70%;
+	}
+	#btnAddNetWork{
+		margin: 0 1em;
+		width: 50%;
+	}
+	.after-ip{
+		width: 30%;
+	}
+	#btnAddNetWork{
+		border: none;
+		line-height: 2em;
+	}
+	.btn-cust{
+		line-height: 2em;
+	}
+}
+@media screen and (min-width: 1600px){
+	.sel-addOffer{
+		width: 12.9%;
+	}
+	.downloadbtn{
+		width: 13%;
+	}
+	.headingfix{
+		width: 38%;
+		flex-grow: 0;
+	}
+}
+@media screen and (min-width: 1900px){
+	.headingfix{
+		width: 33%;
+	}
+}
+@media screen and (min-width: 1900px){
+	.headingfix{
+		width: 30%;
+	}
+	.sel-addOffer{
+		width: 5%;
+	}
+	.downloadbtn{
+		width: 9%;
+		margin-right: 6.1%;
+	}
+	.sel-mem{
+		width: 25%;
+	}
+}
