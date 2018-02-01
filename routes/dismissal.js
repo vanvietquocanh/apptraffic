@@ -3,7 +3,7 @@ var router = express.Router();
 const mongo = require('mongodb');
 const assert = require('assert');
 
-const pathMongodb = 'mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic';
+const pathMongodb = 'mongodb://127.0.0.1:27017/admintraffic';
 
 router.post('/', function(req, res, next) {
 	function dismissalPerson (id){
