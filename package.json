@@ -18,6 +18,6 @@
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "randomstring": "^1.1.5",
-    "serve-favicon": "~2.4.5"`
+    "serve-favicon": "~2.4.5"
   }
 }

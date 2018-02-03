@@ -85,7 +85,7 @@
 	background:  #188ae2;
 	border:  none;
 	color: #fff;
-	border-bottom: 1px solid;
+	border-bottom: 1px solid #188ae2;
 	width: 100%;
 }
 .icon-content{
@@ -93,15 +93,18 @@
 	color: #fff;
 }
 .btn-content{
-	background: #188ae2;
+	background: rgba(82, 82, 82, 0);
 	border: none;
 	margin: auto;
 	display: block;
 }
-.btn-content-copy,.btn-content-del{
+.btn-content-copy,.btn-content-del,.btn-content-menu{
 	width: 18px;
 	padding-right: 1.4em;
 	height: 20px;
+}
+.btn-content-menu::after{
+	content: "\f0c9";
 }
 .btn-content-copy::after{
 	content: "\f0c5";
@@ -135,6 +138,60 @@
     text-align: center;
     margin: auto;
 }
+.custNet{
+	display: none;
+	position: fixed;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 10000;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	top: 0;
+}
+.custNet-hidden{
+	margin-top: 40%;
+}
+.custNet-hidden-label-custom{
+	padding: .25em 1em;
+	width: 100%;
+}
+.custNet-hidden-lable{
+	display: flex;
+	margin: 0;
+	padding: 0;
+}
+.confirm-btn{
+	margin-top: 1em;
+	padding: .25em 1em;
+	width: 100%;
+	color: #fff;
+	background: #188ae2;
+	border: 1px solid #188ae2;
+}
+#Confirm{
+	margin-right: .1em;
+}
+#Cancle{
+	margin-left: .1em;
+}
+.label-title-first{
+	border-top: 1px solid #5d676e;
+}
+.custNet-hidden-lable-title{
+	width: 20%;
+	line-height: 2em;
+	background: #2c3e50;
+	color: #fff;
+	margin: 0;
+	text-align: center;
+	border-bottom: 1px solid #5d676e;
+}
+.confirm-btn:hover,
+.confirm-btn:active,
+.confirm-btn:focus{
+	background: #27ae60;
+	border: 1px solid #27ae60;
+}
 @media screen and (min-width: 678px){
 	.btn-cust{
 		line-height: 3.1em;
@@ -146,6 +203,13 @@
 	}
 }
 @media screen and (min-width: 720px){
+	.custNet-hidden{
+		margin-top: 35%;
+	}
+	.custNet-hidden-lable{
+		width: 80%;
+    	margin: 0 auto;
+	}
 	.headingfix{
 		width: 78%;
 	}
@@ -172,6 +236,13 @@
 	.sel-mem{
 		width: 37%;
 	}
+	.custNet-hidden{
+		margin-top: 30%;
+	}
+	.custNet-hidden-lable{
+		width: 60%;
+    	margin: 0 auto;
+	}
 }
 @media screen and (min-width: 1200px) {
 	.panel-title{
@@ -188,6 +259,13 @@
 	}
 }
 @media screen and (min-width: 1360px){
+	.custNet-hidden{
+		margin-top: 25%;
+	}
+	.custNet-hidden-lable{
+		width: 60%;
+    	margin: 0 auto;
+	}
 	.headingfix{
 		flex-grow: 1;
 	}
@@ -244,6 +322,8 @@
 @media screen and (min-width: 1400px){
 	.net-content{
 		height: 2.5em;
+		width: 100.4%;
+		margin-left: -.3em;
 	}
 	.net-content-input{
 		width: 70%;
@@ -264,6 +344,13 @@
 	}
 }
 @media screen and (min-width: 1600px){
+	.custNet-hidden{
+		margin-top: 20%;
+	}
+	.custNet-hidden-lable{
+		width: 25%;
+    	margin: 0 auto;
+	}
 	.sel-addOffer{
 		width: 12.9%;
 	}
@@ -293,5 +380,8 @@
 	}
 	.sel-mem{
 		width: 25%;
+	}
+	.custNet-hidden{
+		margin-top: 15%;
 	}
 }

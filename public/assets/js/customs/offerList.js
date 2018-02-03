@@ -81,7 +81,7 @@ SortItems.prototype.download = function(filename){
 	let affID = this.admin;
     $.each(this.list,function(index, el) {
     	$.each(el.data.offers, function(i, el) {
-        	text+= `http://128.199.163.213/checkparameter/?offer_id=${i}&aff_id=${affID}|${el.geo}|${el.platform.toUpperCase()}\r\n`;
+        	text+= `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${i}&aff_id=${affID}|${el.geo}|${el.platform.toUpperCase()}\r\n`;
     	});
     });
     var blob = new Blob([text],{type:"octet/stream"});

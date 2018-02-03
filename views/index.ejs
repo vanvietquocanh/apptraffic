@@ -37,6 +37,50 @@
 
 
     <body class="fixed-left">
+        <div class="custNet">
+            <div class="custNet-hidden">
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title label-title-first" for="">Data</label>
+                    <input class="custNet-hidden-label-custom" id="datacust" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title label-title-first" for="">Offer ID</label>
+                    <input class="custNet-hidden-label-custom" id="OfferID" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title" for="">Platform</label>
+                    <input class="custNet-hidden-label-custom" id="Platform" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title" for="">Thumbnail</label>
+                    <input class="custNet-hidden-label-custom" id="Thumbnail" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title" for="">Name</label>
+                    <input class="custNet-hidden-label-custom" id="Name" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title" for="">Url</label>
+                    <input class="custNet-hidden-label-custom" id="Url" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title" for="">Payout</label>
+                    <input class="custNet-hidden-label-custom" id="Payout" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title" for="">Cap</label>
+                    <input class="custNet-hidden-label-custom" id="Cap" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <label class="custNet-hidden-lable-title" for="">Country</label>
+                    <input class="custNet-hidden-label-custom" id="Country" type="text">
+                </ul>
+                <ul class="custNet-hidden-lable">
+                    <button id="Confirm" class="confirm-btn">Confirm</button>
+                    <button id="Cancle" class="confirm-btn">Cancle</button>
+                </ul>
+            </div>
+        </div>
         <!-- Begin page -->
         <div id="wrapper">
 
@@ -247,7 +291,8 @@
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 64px;text-align: center">Sub ID Key</th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 26px;text-align: center">Edit</th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 46px;text-align: center">Del</th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 46px;text-align: center">Copy</th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 40px;text-align: center">Copy</th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 35px;text-align: center">Custom</th>
                                         </tr>
                                     </thead>
                                     <tbody id="renderNetwork">
@@ -359,9 +404,6 @@
 
         </div>
         <!-- END wrapper -->
-
-
-
         <script>
             var resizefunc = [];
         </script>

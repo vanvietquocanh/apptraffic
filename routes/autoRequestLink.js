@@ -4,38 +4,49 @@ var request = require("request");
 const mongo = require('mongodb');
 const assert = require('assert');
 
-const pathMongodb = 'mongodb://127.0.0.1:27017/admintraffic';
+const pathMongodb = 'mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic';
 router.post('/', function(req, res, next) {
 	function callRequestGet(network, db, query) {
 		try {
 			request.get({
 			    url: network.link
 			}, function (err, respon) {
-			   saveDB(network, db, query, respon) 	
+			   saveDB(network, db, query, respon.body) 	
 			});
 		} catch(e) {
-			callRequest(network);
+			callRequestGet(network);
 		}
 	}
 	function saveDB(network, db, query, respon) {
+		var data = JSON.parse(respon);
+		var dataChecker;
+		for(var i = 0; data[`${network.custom.data.split("|")[i]}`]!= undefined; i++){
+			dataChecker = data[`${network.custom.data.split("|")[i]}`];
+		}
+		// for(var z = 0; z < dataChecker.length; z++){
+			// for(var j = 1; j < Object.keys(network.custom).length; j++){
+				// dataChecker[0][`${Object.keys(network.custom)[j]}`] = dataChecker[z][`${network.custom.offerid}`];
+				// delete dataChecker[z][`${network.custom.offerid}`];
+			// }
+		// }
+		console.log(network.custom)
 		var dataSave = {
 	    		$push:{
 	    			"offerList":{
-	    				"name" : network.name,
-		    			"data" : JSON.parse(respon.body)
+		    			"data" : JSON.parse(respon)
 	    			}
 	    		}
 	    	}
 	    try{
-			mongo.connect(pathMongodb,function(err,db){
-				assert.equal(null,err);
-					db.collection('userlist').updateOne(query,dataSave,{upsert: true},(err,result)=>{
-						console.log(err)
-						if(!err){
-							res.send("Successfully saved MongoDB data!");
-						}
-					})
-			});
+			// mongo.connect(pathMongodb,function(err,db){
+			// 	assert.equal(null,err);
+			// 		db.collection('userlist').updateOne(query,dataSave,{upsert: true},(err,result)=>{
+			// 			console.log(err)
+			// 			if(!err){
+			// 				res.send("Successfully saved MongoDB data!");
+			// 			}
+			// 		})
+			// });
 		}catch(e){
 			res.redirect("/")
 		}
@@ -45,7 +56,7 @@ router.post('/', function(req, res, next) {
 			request.post({
 			    url: network.link
 			}, function (err, respon) {
-				saveDB(network, db, query, respon)
+				saveDB(network, db, query, respon.body)
 			});
 		} catch(e) {
 			callRequestPost(network);
@@ -65,13 +76,15 @@ router.post('/', function(req, res, next) {
 			db.collection("userlist").updateOne(query, reset, (err, result)=>{
 				if(!err){
 					network.forEach((api, index)=>{
-						switch (api.method) {
-							case "GET":
-									callRequestGet(api, db, query)
-								break;
-							case "POST":
-									callRequestPost(api, db, query)
-								break;
+						if(api.custom){
+							switch (api.method) {
+								case "GET":
+										callRequestGet(api, db, query)
+									break;
+								case "POST":
+										callRequestPost(api, db, query)
+									break;
+							}
 						}
 					})
 				}

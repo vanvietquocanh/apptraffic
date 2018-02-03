@@ -4,7 +4,7 @@ const mongo = require('mongodb');
 const assert = require('assert');
 
 
-const pathMongodb = 'mongodb://127.0.0.1:27017/admintraffic';
+const pathMongodb = 'mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic';
 /* GET home page. */
 router.post('/', function(req, res, next) {
 	function saveDB(){
@@ -13,9 +13,13 @@ router.post('/', function(req, res, next) {
 			var query = {
 				"isNetwork" : true
 			}
+			var netWork = req.body.NetworkList;
+			if(req.body.NetworkList==null){
+				netWork = [];
+			}
 			var data = {
 				$set : {
-					"NetworkList" : req.body.NetworkList
+					"NetworkList" : netWork
 				}							
 			}
 			mongo.connect(pathMongodb,function(err,db){
