@@ -652,6 +652,7 @@ File: Components
   box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
 }
 .panel .panel-body {
+  height: 45em;
   padding: 10px;
 }
 .panel .panel-body p {
@@ -1356,6 +1357,7 @@ table.dataTable td.focus {
 ============= */
 .widget-chart-1 .widget-chart-box-1 {
   float: left;
+  padding-left: 1em;
 }
 .widget-chart-1 .widget-detail-1 {
   text-align: right;
@@ -1363,6 +1365,7 @@ table.dataTable td.focus {
   min-height: 77px;
 }
 .widget-box-2 .widget-detail-2 {
+  padding-left: 1em;
   text-align: right;
 }
 .widget-box-2 .widget-detail-2 .badge {

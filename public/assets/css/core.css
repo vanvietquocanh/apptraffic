@@ -218,6 +218,7 @@ hr {
   margin-top: 40px !important;
 }
 .m-b-0 {
+  padding-right: 1em;
   margin-bottom: 0px !important;
 }
 .m-b-5 {
@@ -236,6 +237,8 @@ hr {
   margin-bottom: 25px !important;
 }
 .m-b-30 {
+  padding-top: 1em;
+  padding-left: 1em;
   margin-bottom: 30px !important;
 }
 .w-xs {
@@ -573,6 +576,7 @@ blockquote small {
   color: #ff5b5b !important;
 }
 .text-muted {
+  padding-right: 2em;
   color: #98a6ad !important;
 }
 .text-primary {

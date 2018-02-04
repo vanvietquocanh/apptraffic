@@ -41,34 +41,33 @@ SortItems.prototype.render = function(countItem){
 	var elementHtml = "";
 	var affID = this.admin;
 	var lengthofListOffers = this.list.length;
-	$.each(this.list, function(i, array) {
-		$.each(array.data.offers, function(index, val) {
-			var pathRedirect = `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${index}&aff_id=${affID}`;
-			if(index < countItem/lengthofListOffers){
-				elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
-									<td class="sorting_1" tabindex="0" style="color: #fff">${index}</td>
-									<td class="sorting_1" tabindex="0" style="color: #fff">${val.offerid}</td>`;
-			if(val.platform==="android"){
-					elementHtml += `<td><img class="platformIcon" src="./assets/images/android.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
-			}else{
-					elementHtml += `<td><img class="platformIcon" src="./assets/images/apple.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
-			}
-					elementHtml += `<td><img src="${val.icon_url}" class="iconItems" alt="" style="width: 30px;border-radius:15em;"></td>
-									<td class="showItems-name">${val.app_name}</td>`;
-			if(this.admin){
-					elementHtml += `<td style="color: #fff;">${val.offer_url}</td>`;
-			}else{
-					elementHtml += `<td style="color: #fff;">${pathRedirect}</td>`;
-			}
-					elementHtml += `<td>${val.payout}</td>
-									<td>${val.daily_cap}</td>
-									<td style="max-width:10px;">${val.geo}</td>
-									<td> Click </td>
-									<td> Conversion </td>
-									<td> CVR </td>
-								</tr>`;
-			}
-		});
+			console.log(affID)
+	$.each(this.list, function(index, val) {
+		var pathRedirect = `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${index}&aff_id=${affID.isID}`;
+		if(index < countItem){
+			elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
+								<td class="sorting_1" tabindex="0" style="color: #fff">${index}</td>
+								<td class="sorting_1" tabindex="0" style="color: #fff">${val.offeridSet}</td>`;
+		if(val.platformSet==="android"){
+				elementHtml += `<td><img class="platformIcon" src="./assets/images/android.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
+		}else{
+				elementHtml += `<td><img class="platformIcon" src="./assets/images/apple.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
+		}
+				elementHtml += `<td><img src="${val.imgSet}" class="iconItems" alt="" style="width: 30px;border-radius:15em;"></td>
+								<td class="showItems-name">${val.nameSet}</td>`;
+		if(affID.isAdmin){
+				elementHtml += `<td style="color: #fff;">${val.urlSet}</td>`;
+		}else{
+				elementHtml += `<td style="color: #fff;">${pathRedirect}</td>`;
+		}
+				elementHtml += `<td>${val.paySet}</td>
+								<td>${val.capSet}</td>
+								<td style="max-width:10px;">${val.countrySet}</td>
+								<td> Click </td>
+								<td> Conversion </td>
+								<td> CVR </td>
+							</tr>`;
+		}
 	});
 	table.append(elementHtml);
 	setTimeout(()=>{
@@ -80,9 +79,7 @@ SortItems.prototype.download = function(filename){
 	var text = "";
 	let affID = this.admin;
     $.each(this.list,function(index, el) {
-    	$.each(el.data.offers, function(i, el) {
-        	text+= `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${i}&aff_id=${affID}|${el.geo}|${el.platform.toUpperCase()}\r\n`;
-    	});
+        text+= `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${index}&aff_id=${affID.isID}|${el.countrySet}|${el.platformSet.toUpperCase()}\r\n`;
     });
     var blob = new Blob([text],{type:"octet/stream"});
     var url  = window.URL.createObjectURL(blob);

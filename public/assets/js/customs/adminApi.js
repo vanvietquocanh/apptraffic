@@ -77,10 +77,8 @@ API.prototype.attachedNewMember = function(data) {
 	api.saveData(data);
 }
 API.prototype.requestSave = function(data){
-	console.log(data)
 	$.each(data,(i,person)=>{
 		$.post("/savedata",person,function(data, textStatus, xhr){
-			console.log(data)
 		})
 		if(i===data.length-1){
 			window.location.reload(true);
@@ -133,7 +131,6 @@ API.prototype.attachedMember = function(data){
 		if(sessionPromote&&arraySelectMember.length>0){
 			$.each(arraySelectMember,(i,person)=>{
 				$.post("/promote", person, (data, textStatus, xhr)=>{
-					console.log(data)
 				})
 				if(i===arraySelectMember.length-1){
 					window.location.reload(true);
@@ -174,7 +171,6 @@ API.prototype.attachedMember = function(data){
 			memberMasterList.children().html("Master List")
 		}else{
 			arraySelectMember = [];
-		console.log(memberMasterList.children().text())
 			api.getMaster()
 			$("#memListTit").html("Master List");
 			memberMasterList.children().html("Member List")
@@ -230,7 +226,18 @@ API.prototype.addEventEditer = function(){
 	var netWorkData = this.netWork;
 	$(".btn-content-del").click(function(event) {
 		netWorkData.NetworkList.splice($(event.target).attr("class").split("btn_")[1],1)
-		api.rerenderNetwork();
+		$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
+			renderNetwork.empty()
+			if(data){
+				api.removeEvent();
+				$.each(api.netWork.NetworkList, function(index, val) {
+					api.attachedNetworkToDom(val,index);
+				});
+				api.addEventEditer();
+			}else{
+				api.rerenderNetwork()
+			}
+		})
 	});
 	$(".btn-content-edit").click((event)=>{
 		$.each(netWorkData.NetworkList, (index, el)=> {
@@ -253,21 +260,21 @@ API.prototype.addEventEditer = function(){
 	})
 	$(".btn-content-menu").click((e)=>{
 		api.custom = $(event.target).attr("class").split("btn_")[1];
-		if(this.netWork.NetworkList[this.custom].custom==undefined){
+		if(api.netWork.NetworkList[api.custom].custom==undefined){
 			var custom = {
-				data 	 : "",
-				offerid  : "",
-				platform : "",
-				img 	 : "",
-				name 	 : "",
-				url 	 : "",
-				pay 	 : "",
-				cap 	 : "",
-				country  : ""
+				data 	 	 : "",
+				offeridSet   : "",
+				platformSet  : "",
+				imgSet   	 : "",
+				nameSet 	 : "",
+				urlSet 	   	 : "",
+				paySet 	     : "",
+				capSet 	     : "",
+				countrySet   : ""
 			}
 			api.customNetReturn(custom)
 		}else{
-			api.customNetReturn(this.netWork.NetworkList[this.custom].custom)
+			api.customNetReturn(api.netWork.NetworkList[api.custom].custom)
 		}
 		$(".custNet").fadeIn('slow');
 	})
@@ -279,15 +286,15 @@ API.prototype.addEventEditer = function(){
 		if($("#datacust").val()&&$("#OfferID").val()&&$("#Platform").val()&&$("#Thumbnail").val()&&$("#Name").val()&&$("#Url").val()&&$("#Payout").val()&&$("#Cap").val()&&$("#Country").val()){
 			if(confirmAddCustom){
 				var dataSetToNetwork = {
-					data    : $("#datacust").val(),
-					offerid : $("#OfferID").val(),
-					platform: $("#Platform").val(),
-					img 	: $("#Thumbnail").val(),
-					name 	: $("#Name").val(),
-					url 	: $("#Url").val(),
-					pay 	: $("#Payout").val(),
-					cap 	: $("#Cap").val(),
-					country : $("#Country").val()
+					data       : $("#datacust").val(),
+					offeridSet : $("#OfferID").val(),
+					platformSet: $("#Platform").val(),
+					imgSet     : $("#Thumbnail").val(),
+					nameSet    : $("#Name").val(),
+					urlSet     : $("#Url").val(),
+					paySet     : $("#Payout").val(),
+					capSet     : $("#Cap").val(),
+					countrySet : $("#Country").val()
 				}
 				api.netWork.NetworkList[api.custom].custom = dataSetToNetwork;
 				$("#Confirm").html("<i class='fa fa-spinner fa-pulse'></i>")
@@ -307,14 +314,14 @@ API.prototype.addEventEditer = function(){
 };
 API.prototype.customNetReturn = function(custom){
 	$("#datacust").val(custom.data);
-	$("#OfferID").val(custom.offerid);
-	$("#Platform").val(custom.platform);
-	$("#Thumbnail").val(custom.img);
-	$("#Name").val(custom.name);
-	$("#Url").val(custom.url);
-	$("#Payout").val(custom.pay);
-	$("#Cap").val(custom.cap);
-	$("#Country").val(custom.country);
+	$("#OfferID").val(custom.offeridSet);
+	$("#Platform").val(custom.platformSet);
+	$("#Thumbnail").val(custom.imgSet);
+	$("#Name").val(custom.nameSet);
+	$("#Url").val(custom.urlSet);
+	$("#Payout").val(custom.paySet);
+	$("#Cap").val(custom.capSet);
+	$("#Country").val(custom.countrySet);
 };
 API.prototype.setNetwork = function(data){
 	this.netWork = data;
@@ -324,7 +331,7 @@ API.prototype.attachedNetworkToDom = (data, index)=>{
 					        <td>${data.name}</td>
 					        <td>${data.method}</td>
 					        <td>${data.link}</td>
-					        <td id="val_${index}">http://${window.location.href.split("//")[1].split("/")[0]}/eventdata?transaction_id={${data.postback}}</td>
+					        <td id="val_${index}">http://${window.location.href.split("//")[1].split("/")[0]}/tracking/eventdata?transaction_id={${data.postback}}</td>
 					        <td class="icon-content"><button class="btn-content btn-content-edit fa btn_${index}"></button></td>
 					        <td class="icon-content"><button class="btn-content btn-content-del fa btn_${index}"></button></td>
 					        <td class="icon-content"><button class="btn-content btn-content-copy fa btn_${index}"></button></td>
@@ -356,7 +363,6 @@ API.prototype.removeEvent = function(){
 	$("#Confirm").unbind('click');
 };
 API.prototype.rerenderNetwork = function(){
-	console.log(api.netWork)
 	$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
 		renderNetwork.empty()
 		if(data){
@@ -411,10 +417,21 @@ addBtnNetwork.click(function(e) {
 		itemEdit.link = linkNetwork.val()
 		itemEdit.postback = postBack.val()
 		addBtnNetwork.children().removeClass("fa-check").addClass('fa-plus');
-		nameNetwork.val("")
-		methodNetwork.val("")
-		linkNetwork.val("")
-		postBack.val("")
-		api.rerenderNetwork()
+		nameNetwork.val("");
+		methodNetwork.val("");
+		linkNetwork.val("");
+		postBack.val("");
+		$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
+			renderNetwork.empty()
+			if(data){
+				api.removeEvent();
+				$.each(api.netWork.NetworkList, function(index, val) {
+					api.attachedNetworkToDom(val,index);
+				});
+				api.addEventEditer();
+			}else{
+				api.rerenderNetwork()
+			}
+		})
 	}
 });

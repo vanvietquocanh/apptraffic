@@ -4,7 +4,7 @@ const mongo = require('mongodb');
 const assert = require('assert');
 var randomstring = require("randomstring");
 
-const pathMongodb = 'mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic';
+const pathMongodb = 'mongodb://localhost:27017/admintraffic';
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	function save(dataUpdate, link) {
@@ -32,50 +32,48 @@ router.get('/', function(req, res, next) {
 		var dataUpdate = {
 			$push : {
 				"report" : {
-					"appName":app.app_name,
-					"name": person.displayName,
-		            "idFacebook": person.idFacebook,
-		            "idOffer": req.query.offer_id,
-		            "id": req.query.aff_id,
-		            "time": strToday,
-		            "country" : app.geo,
-		            "ip": ip,
-		            "agent": req.headers['user-agent'],
-		            "key" : strRandom
+					"appName"   : app.nameSet,
+					"name"	 	: person.profile.displayName,
+		            "idOffer"   : req.query.offer_id,
+		            "id"	 	: req.query.aff_id,
+		            "time"		: strToday,
+		            "country"   : app.countrySet,
+		            "ip"		: ip,
+		            "agent"		: req.headers['user-agent'],
+		            "key" 		: strRandom,
+		            "pay"	  	: app.paySet
 				}
 			}
 		}
-		mongo.connect(pathMongodb,function(err,db){
-			assert.equal(null,err);
-				db.collection('userlist').findOne(queryNetwork, function(err,result){
-					if(!err){
-						if(result.NetworkList.length!==0){
-							result.NetworkList.forEach((ele,index)=>{
-								if(app.offer_url.indexOf(ele.name.toLowerCase())!==-1){
-									var link = `${app.offer_url}+&${ele.postback}=${strRandom}`
-									save(dataUpdate,link)
-								};
-							})
-						}
-					}
+		try {
+			mongo.connect(pathMongodb,function(err,db){
 				assert.equal(null,err);
-				db.close();
+					db.collection('userlist').findOne(queryNetwork, function(err,result){
+						if(!err){
+							if(result.NetworkList.length!==0){
+								for(let x = 0; x < result.NetworkList.length; x++){
+									if(app.nameNetworkSet.indexOf(result.NetworkList[x].name)!==-1){
+										var link = `${app.urlSet}+&${result.NetworkList[x].postback}=${strRandom}`
+											save(dataUpdate,link)
+										break;
+									}
+								}
+							}
+						}
+					assert.equal(null,err);
+					db.close();
+				});
 			});
-		});
+		} catch(e) {
+			console.log(e);
+		}
 	}
 	function checkApp(profile, db) {
 		var querySearchOffer = {
 			"dataAPITrackinglink" : true
 		}
 		db.collection('userlist').findOne(querySearchOffer, function(err,result){
-			result.offerList.forEach( function(element, index) {
-				element.data.offers.forEach( function(el, i) {
-					if(i == req.query.offer_id){
-						checkPostback(el, profile)
-					}
-
-				});
-			});
+				checkPostback(result.offerList[req.query.offer_id], profile)
 			assert.equal(null,err);
 			db.close();
 		})
@@ -88,7 +86,7 @@ router.get('/', function(req, res, next) {
 			assert.equal(null,err);
 				db.collection('userlist').findOne(query, function(err,result){
 					if(result.profile){
-						checkApp(result.profile, db)
+						checkApp(result, db)
 					}else{
 						res.redirect("/")
 					}

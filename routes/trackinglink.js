@@ -4,7 +4,7 @@ const mongo = require('mongodb');
 const assert = require('assert');
 
 
-const pathMongodb = 'mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic';
+const pathMongodb = 'mongodb://localhost:27017/admintraffic';
 /* GET home page. */
 router.post('/', function(req, res, next) {
 	try {
@@ -13,7 +13,10 @@ router.post('/', function(req, res, next) {
 		}
 		function responData(db, isAdmin) {
 			db.collection('userlist').findOne(query1,(err, result)=>{
-				result.admin = req.user.id
+				result.admin = {
+					isAdmin : isAdmin.admin,
+					isID 	: isAdmin.idFacebook
+				}
 				res.send(result)
 			})
 		}
@@ -24,7 +27,7 @@ router.post('/', function(req, res, next) {
 			assert.equal(null,err);
 				db.collection('userlist').findOne(query, function(err,result){
 					// if(result.admin){
-						responData(db,result.admin)
+						responData(db,result)
 					// }
 				assert.equal(null,err);
 				db.close();

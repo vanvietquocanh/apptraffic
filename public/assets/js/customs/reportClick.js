@@ -28,21 +28,21 @@ SortItems.prototype.setDataReport = function(data){
 SortItems.prototype.renderReport = function(countItem) {
 	var elementHtml = "";
 	var lengthofListReportClick = this.dataReportClick.length;
-	$.each(this.dataReportClick, function(index, val) {
-		if(index < countItem){
+	for(let x = this.dataReportClick.length-1; x >= 0; x--){
+		if(x < countItem){
 			elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
-								<td class="sorting_1" tabindex="0" style="color: #fff">${val.id}</td>
-								<td class="sorting_1" tabindex="0" style="color: #fff">${val.appName}</td>
-								<td class="sorting_1" tabindex="0" style="color: #fff">${val.name}</td>
-								<td class="showItems-name">${val.idOffer}</td>
-								<td style="color: #fff;">${val.time}</td>
-								<td style="color: #fff;">${val.ip}</td>
-								<td>${val.agent}</td>
-								<td style="max-width:10px;">${val.country}</td>
-								<td>${val.key}</td>
+								<td class="sorting_1" tabindex="0" style="color: #fff">${sortItems.dataReportClick[x].id}</td>
+								<td class="sorting_1" tabindex="0" style="color: #fff">${sortItems.dataReportClick[x].appName}</td>
+								<td class="sorting_1" tabindex="0" style="color: #fff">${sortItems.dataReportClick[x].name}</td>
+								<td class="showItems-name">${sortItems.dataReportClick[x].idOffer}</td>
+								<td style="color: #fff;">${sortItems.dataReportClick[x].time}</td>
+								<td style="color: #fff;">${sortItems.dataReportClick[x].ip}</td>
+								<td>${sortItems.dataReportClick[x].agent}</td>
+								<td style="max-width:10px;">${sortItems.dataReportClick[x].country}</td>
+								<td>${sortItems.dataReportClick[x].key}</td>
 							</tr>`;
-		}
-	});
+		}	
+	}
 	table.append(elementHtml);
 }
 SortItems.prototype.scroll = ()=>{

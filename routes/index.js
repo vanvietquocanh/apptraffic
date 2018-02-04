@@ -4,7 +4,7 @@ const mongo = require('mongodb');
 const assert = require('assert');
 
 
-const pathMongodb = 'mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic';
+const pathMongodb = 'mongodb://localhost:27017/admintraffic';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -41,10 +41,10 @@ router.get('/', function(req, res, next) {
 						}
 						if(result){
 								var admin = `<li>
-		                               			<a href="/admin" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+		                               			<a href="/dashboard" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
 		                            		</li>`;
 							if(result.member){
-		                            renderPage("offers",admin)
+		                            renderPage("profile",admin)
 							}else if(result.admin||result.master){
 		                        renderPage("index", admin)
 							}else{

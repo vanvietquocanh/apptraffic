@@ -4,65 +4,73 @@ var request = require("request");
 const mongo = require('mongodb');
 const assert = require('assert');
 
-const pathMongodb = 'mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic';
+const pathMongodb = 'mongodb://localhost:27017/admintraffic';
 router.post('/', function(req, res, next) {
-	function callRequestGet(network, db, query) {
+	var requestApi = new RequestAPI();
+	function RequestAPI() {
+		this.countRequest = 0;
+		this.countCustomInNetwork = 0;
+		this.arrayDadaPushToDatabase = [];
+	}
+	RequestAPI.prototype.callRequestGet = (network, db, query) =>{
 		try {
 			request.get({
 			    url: network.link
 			}, function (err, respon) {
-			   saveDB(network, db, query, respon.body) 	
+			   requestApi.saveDB(network, db, query, respon.body) 	
 			});
 		} catch(e) {
-			callRequestGet(network);
+			requestApi.callRequestGet(network);
 		}
 	}
-	function saveDB(network, db, query, respon) {
+	RequestAPI.prototype.saveDB = (network, db, query, respon) =>{
+		requestApi.countRequest++;
 		var data = JSON.parse(respon);
-		var dataChecker;
-		for(var i = 0; data[`${network.custom.data.split("|")[i]}`]!= undefined; i++){
-			dataChecker = data[`${network.custom.data.split("|")[i]}`];
+		var dataChecker = data;
+		for(let i = 0; i < network.custom.data.split(",").length; i++){
+			dataChecker = dataChecker[`${network.custom.data.split(",")[i].trim()}`];
 		}
-		// for(var z = 0; z < dataChecker.length; z++){
-			// for(var j = 1; j < Object.keys(network.custom).length; j++){
-				// dataChecker[0][`${Object.keys(network.custom)[j]}`] = dataChecker[z][`${network.custom.offerid}`];
-				// delete dataChecker[z][`${network.custom.offerid}`];
-			// }
-		// }
-		console.log(network.custom)
-		var dataSave = {
-	    		$push:{
-	    			"offerList":{
-		    			"data" : JSON.parse(respon)
-	    			}
-	    		}
-	    	}
-	    try{
-			// mongo.connect(pathMongodb,function(err,db){
-			// 	assert.equal(null,err);
-			// 		db.collection('userlist').updateOne(query,dataSave,{upsert: true},(err,result)=>{
-			// 			console.log(err)
-			// 			if(!err){
-			// 				res.send("Successfully saved MongoDB data!");
-			// 			}
-			// 		})
-			// });
-		}catch(e){
-			res.redirect("/")
+		for(let z = 0; z < dataChecker.length; z++){
+			dataChecker[z].nameNetworkSet = network.name;
+			for(var j = 1; j < Object.keys(network.custom).length; j++){
+				dataChecker[z][`${Object.keys(network.custom)[j].trim()}`] = dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
+				delete dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
+			}
+			requestApi.arrayDadaPushToDatabase.push(dataChecker[z])
+		}//this is loop change keys of value;
+		if(requestApi.countRequest===requestApi.countCustomInNetwork){
+		    try{
+				var dataSave = {
+		    		$set:{
+		    			"offerList": requestApi.arrayDadaPushToDatabase 
+		    		}
+		    	}
+				db.collection('userlist').updateOne(query,dataSave,{upsert: true},(err,result)=>{
+					if(!err){
+						res.send("Successfully saved MongoDB data!");
+					}
+				})
+
+				mongo.connect(pathMongodb,function(err,db){
+					assert.equal(null,err);
+				});	
+			}catch(e){
+				res.send("Error connect Database. Please retry!!!")
+			}
 		}
 	}
-	function callRequestPost(network, db, query) {
+	RequestAPI.prototype.callRequestPost = (network, db, query) =>{
 		try {
 			request.post({
 			    url: network.link
 			}, function (err, respon) {
-				saveDB(network, db, query, respon.body)
+				requestApi.saveDB(network, db, query, respon.body)
 			});
 		} catch(e) {
-			callRequestPost(network);
+			requestApi.callRequestPost(network);
 		}
 	}
-	function requetEmpty(network) {
+	RequestAPI.prototype.requetEmpty = (network) =>{
 		var query = {
 						"dataAPITrackinglink" : true
 					}
@@ -77,12 +85,13 @@ router.post('/', function(req, res, next) {
 				if(!err){
 					network.forEach((api, index)=>{
 						if(api.custom){
+							requestApi.countCustomInNetwork++;
 							switch (api.method) {
 								case "GET":
-										callRequestGet(api, db, query)
+										requestApi.callRequestGet(api, db, query)
 									break;
 								case "POST":
-										callRequestPost(api, db, query)
+										requestApi.callRequestPost(api, db, query)
 									break;
 							}
 						}
@@ -92,12 +101,12 @@ router.post('/', function(req, res, next) {
 		})
 	}
 	try{
-		function findLinkAPI(db) {
+		RequestAPI.prototype.findLinkAPI = (db) =>{
 			let query = {
 				"isNetwork" : true
 			}
 			db.collection("userlist").findOne(query, (err, result)=>{
-				requetEmpty(result.NetworkList)
+				requestApi.requetEmpty(result.NetworkList)
 			})
 		}
 		var query = {
@@ -107,7 +116,7 @@ router.post('/', function(req, res, next) {
 			assert.equal(null,err);
 				db.collection('userlist').findOne(query,function(err,result){
 					if(result.admin){
-						findLinkAPI(db)
+						requestApi.findLinkAPI(db)
 					}else{
 						res.send("Mày đéo phải admin");
 					}
