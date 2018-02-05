@@ -3,7 +3,8 @@ var router = express.Router();
 const mongo = require('mongodb');
 const assert = require('assert');
 
-
+//128.199.163.213
+//const pathMongodb = "mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic";
 const pathMongodb = 'mongodb://localhost:27017/admintraffic';
 
 /* GET home page. */

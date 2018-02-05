@@ -192,6 +192,9 @@
 	background: #27ae60;
 	border: 1px solid #27ae60;
 }
+.btn-cust{
+	border-top: 1px solid #999;
+}
 @media screen and (min-width: 678px){
 	.btn-cust{
 		line-height: 3.1em;
@@ -260,7 +263,7 @@
 }
 @media screen and (min-width: 1360px){
 	.custNet-hidden{
-		margin-top: 25%;
+		margin-top: 12%;
 	}
 	.custNet-hidden-lable{
 		width: 60%;
@@ -274,6 +277,10 @@
 	}
 }
 @media screen and (min-width: 1365px){
+	.btn-cust{
+		width: 300%;
+		border-top: none;
+	}
 	.net-content{
 		height: 3.5em;
 	}
@@ -324,6 +331,9 @@
 		height: 2.5em;
 		width: 100.4%;
 		margin-left: -.3em;
+	}
+	.btn-cust{
+		width: 100%;
 	}
 	.net-content-input{
 		width: 70%;

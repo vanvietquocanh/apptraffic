@@ -30,6 +30,7 @@ var renderNetwork = $("#renderNetwork");
 function API() {
 	this.data;
 	this.member;
+	this.netWork;
 	this.custom;
 	this.sttServerCustomNetwork;
 }
@@ -202,10 +203,14 @@ API.prototype.addNetwork = (dataInput)=>{
 	methodNetwork.val("")
 	linkNetwork.val("")
 	postBack.val("")
-	$.post("/addnetwork",dataInput,(data, text, xhr)=> {
+	$.post("/updatenetwork", api.netWork, (data, text, xhr)=> {
 		if(data){
 			api.removeEvent();
-			api.attachedNetworkToDom(dataInput)
+			api.netWork.NetworkList.push(dataInput)
+			renderNetwork.empty();
+			api.netWork.NetworkList.forEach( function(element, index) {
+				api.attachedNetworkToDom(element,index)
+			});
 			api.addEventEditer();
 		}else{
 			api.addNetwork(dataInput)
@@ -216,28 +221,95 @@ API.prototype.getNetworkList = function(){
 	$.post('/listnetwork', function(data, textStatus, xhr) {
 		api.setNetwork(data);
 		renderNetwork.empty();
-		data.NetworkList.forEach((val, index)=>{
+		api.removeEvent();
+		api.netWork.NetworkList.forEach( function(val, index) {
 			api.attachedNetworkToDom(val, index)
-		})
+		});
 		api.addEventEditer();
 	});
 };
 API.prototype.addEventEditer = function(){
 	var netWorkData = this.netWork;
+	addBtnNetwork.click(function(e) {
+		if(addBtnNetwork.children().attr("class").split("-")[1]==="plus"){
+			// if(methodNetwork.val()){
+			// 	$.post(linkNetwork.val(), function(data, textStatus, xhr) {
+			// 		if(xhr.status===200){
+			// 			attachedNetwork();
+			// 		}else{
+			// 			alert("Link Error!")
+			// 		}
+			// 	});
+			// }else{
+			// 	$.get(linkNetwork.val(), function(data, textStatus, xhr){
+			// 		if(xhr.status===200){
+			// 			attachedNetwork();
+			// 		}else{
+			// 			alert("Link Error!")
+			// 		}
+			// 	});
+			// }
+			// function attachedNetwork() {
+				if(nameNetwork.val()!=="" &&methodNetwork.val()!== null&&linkNetwork.val()!==""&&postBack.val()!==""){
+					var domainNetwork = linkNetwork.val().split("://")[1].split(".")[0];
+					if(domainNetwork){
+						var data = {
+							name     : nameNetwork.val(),
+							method   : methodNetwork.val(),
+							link     : linkNetwork.val(),
+							postback : postBack.val()
+						}
+						api.addNetwork(data)
+					}
+				}else {
+					alert("Please enter full information!!");
+				}
+			// }
+		}else{
+			var itemEdit = api.netWork.NetworkList[indexOfNetWorkEdit];
+			itemEdit.name = nameNetwork.val();
+			itemEdit.method = methodNetwork.val();
+			itemEdit.link = linkNetwork.val()
+			itemEdit.postback = postBack.val()
+			addBtnNetwork.children().removeClass("fa-check").addClass('fa-plus');
+			nameNetwork.val("");
+			methodNetwork.val("");
+			linkNetwork.val("");
+			postBack.val("");
+			$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
+				renderNetwork.empty()
+				if(data){
+					api.removeEvent();
+					$.each(api.netWork.NetworkList, function(index, val) {
+						api.attachedNetworkToDom(val,index);
+					});
+					api.addEventEditer();
+				}else{
+					api.rerenderNetwork()
+				}
+			})
+		}
+	});
 	$(".btn-content-del").click(function(event) {
-		netWorkData.NetworkList.splice($(event.target).attr("class").split("btn_")[1],1)
-		$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
-			renderNetwork.empty()
-			if(data){
-				api.removeEvent();
-				$.each(api.netWork.NetworkList, function(index, val) {
-					api.attachedNetworkToDom(val,index);
-				});
-				api.addEventEditer();
-			}else{
-				api.rerenderNetwork()
-			}
-		})
+		var sesdel = confirm("You sure you want to delete Network?")
+		if(sesdel){
+			addBtnNetwork.click();
+			api.netWork.NetworkList.splice($(event.target).attr("class").split("btn_")[1],1)
+			$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
+				renderNetwork.empty()
+				if(data){
+					$.each(api.netWork.NetworkList, function(index, val) {
+						api.attachedNetworkToDom(val,index);
+					});
+					nameNetwork.val("")
+					methodNetwork.val("")
+					linkNetwork.val("")
+					postBack.val("")
+				}else{
+					api.rerenderNetwork()
+				}
+			})
+		}
 	});
 	$(".btn-content-edit").click((event)=>{
 		$.each(netWorkData.NetworkList, (index, el)=> {
@@ -375,63 +447,3 @@ API.prototype.rerenderNetwork = function(){
 		}
 	})
 };
-addBtnNetwork.click(function(e) {
-	if(addBtnNetwork.children().attr("class").split("-")[1]==="plus"){
-		// if(methodNetwork.val()){
-		// 	$.post(linkNetwork.val(), function(data, textStatus, xhr) {
-		// 		if(xhr.status===200){
-		// 			attachedNetwork();
-		// 		}else{
-		// 			alert("Link Error!")
-		// 		}
-		// 	});
-		// }else{
-		// 	$.get(linkNetwork.val(), function(data, textStatus, xhr){
-		// 		if(xhr.status===200){
-		// 			attachedNetwork();
-		// 		}else{
-		// 			alert("Link Error!")
-		// 		}
-		// 	});
-		// }
-		// function attachedNetwork() {
-			if(nameNetwork.val()!=="" &&methodNetwork.val()!== null&&linkNetwork.val()!==""&&postBack.val()!==""){
-				var domainNetwork = linkNetwork.val().split("://")[1].split(".")[0];
-				if(domainNetwork){
-					var data = {
-						name     : nameNetwork.val(),
-						method   : methodNetwork.val(),
-						link     : linkNetwork.val(),
-						postback : postBack.val()
-					}
-					api.addNetwork(data)
-				}
-			}else {
-				alert("Please enter full information!!");
-			}
-		// }
-	}else{
-		var itemEdit = api.netWork.NetworkList[indexOfNetWorkEdit];
-		itemEdit.name = nameNetwork.val();
-		itemEdit.method = methodNetwork.val();
-		itemEdit.link = linkNetwork.val()
-		itemEdit.postback = postBack.val()
-		addBtnNetwork.children().removeClass("fa-check").addClass('fa-plus');
-		nameNetwork.val("");
-		methodNetwork.val("");
-		linkNetwork.val("");
-		postBack.val("");
-		$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
-			renderNetwork.empty()
-			if(data){
-				api.removeEvent();
-				$.each(api.netWork.NetworkList, function(index, val) {
-					api.attachedNetworkToDom(val,index);
-				});
-				api.addEventEditer();
-			}else{
-				api.rerenderNetwork()
-			}
-		})
-	}
-});
