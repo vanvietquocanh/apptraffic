@@ -33,6 +33,7 @@ var apiGetDataReportClick = require('./routes/apiGetDataReportClick');
 var listNetwork = require('./routes/listNetwork');
 var updateNetwork = require('./routes/updateNetwork');
 var conversionlist = require('./routes/apiConversionData');
+var addNetwork = require('./routes/addNetwork');
 var postback = require('./routes/postBack');
 var logout = require('./routes/logout');
 
@@ -87,6 +88,7 @@ app.use('/promote', promote);
 app.use('/postback', postback);
 app.use('/getmasterlist', getListMaster);
 app.use('/profiledata', apiprofileUser);
+app.use('/addnetwork', addNetwork);
 app.use('/autorequestlink', autoRequestLink);
 app.use('/conversion', conversion);
 app.use('/reportclickgetdata', apiGetDataReportClick);

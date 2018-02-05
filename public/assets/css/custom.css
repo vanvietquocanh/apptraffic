@@ -109,9 +109,6 @@
 .btn-content-copy::after{
 	content: "\f0c5";
 }
-.btn-content-del::after{
-	content: "\f014";
-}
 .btn-content-edit{
 	width: 20px;
 	padding-right: 1.4em;

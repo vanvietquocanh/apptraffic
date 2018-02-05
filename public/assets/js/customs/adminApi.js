@@ -199,19 +199,22 @@ API.prototype.saveData = function(data){
 	});
 };
 API.prototype.addNetwork = (dataInput)=>{
+	var dataUpdate = {
+		name 	: nameNetwork.val(),
+		method 	: methodNetwork.val(),
+		link 	: linkNetwork.val(),
+		postback: postBack.val()
+	}
 	nameNetwork.val("")
 	methodNetwork.val("")
 	linkNetwork.val("")
 	postBack.val("")
-	$.post("/updatenetwork", api.netWork, (data, text, xhr)=> {
+	api.loaddingAPI(addBtnNetwork,"<i class='fa fa-spinner fa-pulse'></i>")
+	$.post("/addnetwork", dataUpdate, (data, text, xhr)=> {
 		if(data){
 			api.removeEvent();
-			api.netWork.NetworkList.push(dataInput)
-			renderNetwork.empty();
-			api.netWork.NetworkList.forEach( function(element, index) {
-				api.attachedNetworkToDom(element,index)
-			});
-			api.addEventEditer();
+			api.getNetworkList();
+			api.loadSuccessfully(addBtnNetwork,"<i class='fa fa-plus' aria-hidden='true'></i>")
 		}else{
 			api.addNetwork(dataInput)
 		}
@@ -271,7 +274,7 @@ API.prototype.addEventEditer = function(){
 			itemEdit.method = methodNetwork.val();
 			itemEdit.link = linkNetwork.val()
 			itemEdit.postback = postBack.val()
-			addBtnNetwork.children().removeClass("fa-check").addClass('fa-plus');
+			api.loaddingAPI(addBtnNetwork,"<i class='fa fa-spinner fa-pulse'></i>")
 			nameNetwork.val("");
 			methodNetwork.val("");
 			linkNetwork.val("");
@@ -279,6 +282,7 @@ API.prototype.addEventEditer = function(){
 			$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
 				renderNetwork.empty()
 				if(data){
+					api.loadSuccessfully(addBtnNetwork,"<i class='fa fa-plus' aria-hidden='true'></i>")
 					api.removeEvent();
 					$.each(api.netWork.NetworkList, function(index, val) {
 						api.attachedNetworkToDom(val,index);
@@ -293,18 +297,18 @@ API.prototype.addEventEditer = function(){
 	$(".btn-content-del").click(function(event) {
 		var sesdel = confirm("You sure you want to delete Network?")
 		if(sesdel){
-			addBtnNetwork.click();
+			$(".btn-content-del").children().removeClass("fa-trash-o").addClass('fa-spinner fa-pulse')
+			api.removeEvent();
 			api.netWork.NetworkList.splice($(event.target).attr("class").split("btn_")[1],1)
 			$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
 				renderNetwork.empty()
 				if(data){
-					$.each(api.netWork.NetworkList, function(index, val) {
-						api.attachedNetworkToDom(val,index);
-					});
+					$(".btn-content-del").children().removeClass("fa-spinner fa-pulse").addClass('fa-trash-o')
 					nameNetwork.val("")
-					methodNetwork.val("")
+					methodNetwork.val("null")
 					linkNetwork.val("")
 					postBack.val("")
+					api.getNetworkList();
 				}else{
 					api.rerenderNetwork()
 				}
@@ -369,11 +373,11 @@ API.prototype.addEventEditer = function(){
 					countrySet : $("#Country").val()
 				}
 				api.netWork.NetworkList[api.custom].custom = dataSetToNetwork;
-				$("#Confirm").html("<i class='fa fa-spinner fa-pulse'></i>")
+				api.loaddingAPI($("#Confirm"),"<i class='fa fa-spinner fa-pulse'></i>")
 				$.post("/updatenetwork", api.netWork, (data, text, xhr)=>{
 					if(data){
 						$(".custNet").fadeOut('slow');				
-						$("#Confirm").html("Confirm")
+						api.loadSuccessfully($("#Confirm"),"Confirm")
 					}else{
 						alert("Error connect Internet please retry!!")
 					}
@@ -383,6 +387,12 @@ API.prototype.addEventEditer = function(){
 			alert("Please complete all information?")
 		}
 	})	
+};
+API.prototype.loaddingAPI = function(idButton, tagI){
+	idButton.html(tagI)
+};
+API.prototype.loadSuccessfully = function(idButton, tagI){
+	idButton.html(tagI)
 };
 API.prototype.customNetReturn = function(custom){
 	$("#datacust").val(custom.data);
@@ -405,7 +415,7 @@ API.prototype.attachedNetworkToDom = (data, index)=>{
 					        <td>${data.link}</td>
 					        <td id="val_${index}">http://${window.location.href.split("//")[1].split("/")[0]}/tracking/eventdata?transaction_id={${data.postback}}</td>
 					        <td class="icon-content"><button class="btn-content btn-content-edit fa btn_${index}"></button></td>
-					        <td class="icon-content"><button class="btn-content btn-content-del fa btn_${index}"></button></td>
+					        <td class="icon-content"><button class="btn-content btn-content-del fa btn_${index}"><i class="fa fa-trash-o"></i></button></td>
 					        <td class="icon-content"><button class="btn-content btn-content-copy fa btn_${index}"></button></td>
 					        <td class="icon-content"><button class="btn-content btn-content-menu fa btn_${index}"></button></td>
 						</tr>`;
@@ -418,18 +428,26 @@ search.change(function(event) {
 api.getAPIManager();
 api.getAPIMember();
 $("#refreshAPI").click(function(event) {
-	var sessionRefresh = confirm("You definitely want to freshen up the offers?");
-	if(sessionRefresh&&countRequest===0){
-		countRequest++;
-		$.post('/autorequestlink', null, function(data, textStatus, xhr) {
-			var readAlert = alert(data);
-		});
+	if(api.netWork.NetworkList.length>0&&api.netWork.NetworkList[0].custom!=undefined){
+		var sessionRefresh = confirm("You definitely want to refresh up the offers?");
+		if(sessionRefresh&&countRequest===0){
+			$("#refreshAPI").children().addClass("fa-spin")
+			// api.loaddingAPI($("#refreshAPI"),"<i class='fa fa-spinner fa-pulse'></i>")
+			countRequest++;
+			$.post('/autorequestlink', null, function(data, textStatus, xhr) {
+				api.loadSuccessfully($("#refreshAPI"),"<i class='fa fa-refresh'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Refresh API")
+				var readAlert = alert(data);
+			});
+		}
+	}else{
+		alert("Please enter full information!!");
 	}
 });
 API.prototype.removeEvent = function(){
 	$(".btn-content-del").unbind('click');
 	$(".btn-content-edit").unbind('click');
 	$(".btn-content-copy").unbind('click');
+	addBtnNetwork.unbind('click');
 	$(".btn-content-menu").unbind('click');
 	$("#Cancle").unbind('click');
 	$("#Confirm").unbind('click');
