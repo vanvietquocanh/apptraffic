@@ -28,6 +28,7 @@ body {
   margin: 0;
   padding-bottom: 60px;
   overflow-x: hidden;
+  overflow-y: -webkit-paged-y;
   color: #98a6ad;
 }
 html {
@@ -1375,4 +1376,8 @@ blockquote.pull-right {
   color: #fff;
   display: block;
   padding-left: .5em;
+}
+#download-btn:hover {
+  background: rgb(16, 196, 105);
+  border: 1px solid rgb(16, 196, 105);
 }

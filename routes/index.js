@@ -3,7 +3,6 @@ var router = express.Router();
 const mongo = require('mongodb');
 const assert = require('assert');
 
-//128.199.163.213
 // const pathMongodb = "mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic";
 const pathMongodb = 'mongodb://localhost:27017/admintraffic';
 
@@ -51,9 +50,9 @@ router.get('/', function(req, res, next) {
 							}else{
 								res.render("error",{
 									error:{
-										status: 404,
-										stack : "Please wait for approval from the administrator!!!"
-									}, message: "Not Found"
+										status: "",
+										stack : "Your application has been reviewed by our team. We will contact soon !"
+									}, message: ""
 								})
 							}
 							assert.equal(null,err);
@@ -63,9 +62,9 @@ router.get('/', function(req, res, next) {
 							})
 							res.render("error",{
 								error:{
-									status: 404,
-									stack : "Please wait for approval from the administrator!!!"
-								}, message: "Not Found"
+									status: "",
+									stack : "Your application has been reviewed by our team. We will contact soon !"
+								}, message: ""
 							})
 							res.end();
 						};

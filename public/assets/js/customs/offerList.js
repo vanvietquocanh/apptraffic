@@ -41,25 +41,24 @@ SortItems.prototype.render = function(countItem){
 	var elementHtml = "";
 	var affID = this.admin;
 	var lengthofListOffers = this.list.length;
-			console.log(affID)
 	$.each(this.list, function(index, val) {
 		var pathRedirect = `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${index}&aff_id=${affID.isID}`;
 		if(index < countItem){
 			elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
 								<td class="sorting_1" tabindex="0" style="color: #fff">${index}</td>
 								<td class="sorting_1" tabindex="0" style="color: #fff">${val.offeridSet}</td>`;
-		if(val.platformSet==="android"){
+			if(val.platformSet==="android"){
 				elementHtml += `<td><img class="platformIcon" src="./assets/images/android.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
-		}else{
+			}else{
 				elementHtml += `<td><img class="platformIcon" src="./assets/images/apple.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
-		}
+			}
 				elementHtml += `<td><img src="${val.imgSet}" class="iconItems" alt="" style="width: 30px;border-radius:15em;"></td>
 								<td class="showItems-name">${val.nameSet}</td>`;
-		if(affID.isAdmin){
+			if(affID.isAdmin){
 				elementHtml += `<td style="color: #fff;">${val.urlSet}</td>`;
-		}else{
+			}else{
 				elementHtml += `<td style="color: #fff;">${pathRedirect}</td>`;
-		}
+			}
 				elementHtml += `<td>${val.paySet}</td>
 								<td>${val.capSet}</td>
 								<td style="max-width:10px;">${val.countrySet}</td>
@@ -70,10 +69,24 @@ SortItems.prototype.render = function(countItem){
 		}
 	});
 	table.append(elementHtml);
-	setTimeout(()=>{
-		var widthItem = `${$(".iconItems")[0].width}px`;
-		$(".platformIcon").css("width",)
-	},200)
+	sortItems.eventDown();
+	if($(".iconItems")[0].width){
+		setTimeout(()=>{
+			var widthItem = `${$(".iconItems")[0].width}px`;
+			$(".platformIcon").css("width",)
+		},200)
+	}
+};
+SortItems.prototype.eventDown = function(){
+	tagDownload.click(function(event) {
+		console.log('click');
+		sortItems.delEventDown();
+		tagDownload.children().children().removeClass("fa-download").addClass('fa-spinner fa-pulse')
+		sortItems.download("OfferList.txt")
+	});
+};
+SortItems.prototype.delEventDown = function(argument){
+	tagDownload.unbind('click');
 };
 SortItems.prototype.download = function(filename){
 	var text = "";
@@ -85,15 +98,14 @@ SortItems.prototype.download = function(filename){
     var url  = window.URL.createObjectURL(blob);
     $("#download").attr("href",url);
     $("#download").attr("download", filename);
-    $("#download").click();
+    tagDownload.children().children().removeClass("fa-spinner fa-pulse").addClass('fa-download')
+    sortItems.eventDown();
 };
- sortItems.getAPI();
+sortItems.getAPI();
 window.onscroll = function(){
     sortItems.scroll();
 }
-tagDownload.click(function(event) {
-	sortItems.download("text.txt")
-});
+
 // sortOS.change(function(event) {
 // 	let valueOSSelect = event.target.value;
 // 	let valueCountrySelect = sortCountry.val().toUpperCase();
