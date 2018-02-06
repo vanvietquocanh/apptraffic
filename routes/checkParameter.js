@@ -4,9 +4,8 @@ const mongo = require('mongodb');
 const assert = require('assert');
 var randomstring = require("randomstring");
 
-// const pathMongodb = "mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic";
-const pathMongodb = 'mongodb://localhost:27017/admintraffic';
-/* GET home page. */
+const pathMongodb = require("./pathDb");
+
 router.get('/', function(req, res, next) {
 	function save(dataUpdate, link) {
 		var queryUpdate = {

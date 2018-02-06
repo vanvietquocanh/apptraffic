@@ -3,8 +3,7 @@ var router = express.Router();
 const mongo = require('mongodb');
 const assert = require('assert');
 
-// const pathMongodb = "mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic";
-const pathMongodb = 'mongodb://localhost:27017/admintraffic';
+const pathMongodb = require("./pathDb");
 
 router.get('/:parameter', function(req, res, next) {
 	if(req.params.parameter==="eventdata"&&req.query.transaction_id!==undefined){

@@ -3,9 +3,9 @@ var router = express.Router();
 var request = require("request");
 const mongo = require('mongodb');
 const assert = require('assert');
+const fs = require("fs");
 
-// const pathMongodb = "mongodb://root:anhanh123@ds117758.mlab.com:17758/admintraffic";
-const pathMongodb = 'mongodb://localhost:27017/admintraffic';
+const pathMongodb = require("./pathDb");
 
 router.post('/', function(req, res, next) {
 	var requestApi = new RequestAPI();
@@ -13,6 +13,7 @@ router.post('/', function(req, res, next) {
 		this.countRequest = 0;
 		this.countCustomInNetwork = 0;
 		this.arrayDadaPushToDatabase = [];
+		this.textWrite = "";
 	}
 	RequestAPI.prototype.callRequestGet = (network, db, query) =>{
 		try {
@@ -38,9 +39,14 @@ router.post('/', function(req, res, next) {
 				dataChecker[z][`${Object.keys(network.custom)[j].trim()}`] = dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
 				delete dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
 			}
+			requestApi.textWrite+= `http://${req.headers.host}/checkparameter/?offer_id=${z}&aff_id=${req.user.id}|${dataChecker[z].countrySet}|${dataChecker[z].platformSet.toUpperCase()}\r\n`;
 			requestApi.arrayDadaPushToDatabase.push(dataChecker[z])
 		}//this is loop change keys of value;
 		if(requestApi.countRequest===requestApi.countCustomInNetwork){
+			fs.writeFile("OfferList.txt", requestApi.textWrite, (err)=>{
+				if(err) throw err;
+				console.log('Save!!!')
+			});
 		    try{
 				var dataSave = {
 		    		$set:{

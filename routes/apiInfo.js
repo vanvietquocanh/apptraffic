@@ -5,3 +5,4 @@ module.exports = {
     "profileFields": ['id', 'displayName', 'photos', 'email'],
     "enableProof" :  false
 }
+//localhost:3000
