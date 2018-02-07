@@ -148,16 +148,6 @@ filterBtn.click(function(event) {
 		});
 	}
 });
-// sortOS.change(function(event) {
-// 	let valueOSSelect = event.target.value;
-// 	let valueCountrySelect = sortCountry.val().toUpperCase();
-// 	sortItems.sortList(valueCountrySelect, valueOSSelect);
-// });
-// sortCountry.change(function(event) {
-// 	let valueOSSelect = sortOS.val();
-// 	let valueCountrySelect = event.target.value.toUpperCase();
-// 	sortItems.sortList(valueCountrySelect, valueOSSelect);
-// });
 btnSearch.click(function(event) {
 	if(search.val()!=""){
 		sortItems.searchMethod = true;
@@ -173,6 +163,3 @@ btnSearch.click(function(event) {
 		});
 	}
 });
-// refresh.click(()=>{
-// 	window.location.href = window.location.href;
-// })
