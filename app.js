@@ -34,6 +34,7 @@ var listNetwork = require('./routes/listNetwork');
 var updateNetwork = require('./routes/updateNetwork');
 var conversionlist = require('./routes/apiConversionData');
 var addNetwork = require('./routes/addNetwork');
+var search = require('./routes/search');
 var postback = require('./routes/postBack');
 var logout = require('./routes/logout');
 
@@ -93,6 +94,7 @@ app.use('/autorequestlink', autoRequestLink);
 app.use('/conversion', conversion);
 app.use('/reportclickgetdata', apiGetDataReportClick);
 app.use('/listnetwork', listNetwork);
+app.use('/search', search);
 app.use('/updatenetwork', updateNetwork);
 app.use('/conversionlist', conversionlist);
 app.use('/logout', logout);

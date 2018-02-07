@@ -121,9 +121,7 @@
                             <li class="has_sub">
                                 <a href="/conversion" class="waves-effect"><i class="fa fa-usd"></i><span> Conversions </span></a>
                             </li>
-                            <li class="has_sub">
-                                <a href="/download" class="waves-effect"><i class="fa fa-calendar" hidden="true"></i> <span> Download </span></a>
-                            </li>
+                            <%-download%>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -387,8 +385,9 @@
                                                                                     </div>
                                                                                     <div class="col-sm-3">
                                                                                         <div id="datatable-responsive_filter" class="dataTables_filter">
-                                                                                            <label>Search:
-                                                                                                <input type="search" class="form-control input-sm" id="search" placeholder="" aria-controls="datatable-responsive">
+                                                                                            <label>
+                                                                                                <input type="search" class="form-control input-sm" id="search" placeholder="Search...." aria-controls="datatable-responsive">
+                                                                                                <button id="btn-search" class="form-control input-sm custom-Search"><i class="fa fa-search"></i></button>
                                                                                             </label>
                                                                                         </div>
                                                                                     </div>

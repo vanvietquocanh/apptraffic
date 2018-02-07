@@ -29,22 +29,27 @@ router.get('/', function(req, res, next) {
 			mongo.connect(pathMongodb,function(err,db){
 				assert.equal(null,err);
 					db.collection('userlist').findOne(query,function(err,result){
-						function renderPage(route, admin){
+						function renderPage(route, admin, download){
 							res.render(route,{
-								"name"  : req.user.displayName,
-								"avatar": req.user.photos[0].value,
-								"admin" : admin
+								"name"    : req.user.displayName,
+								"avatar"  : req.user.photos[0].value,
+								"admin"   : admin,
+								"download": download
 							})
 							res.end();
 						}
 						if(result){
 								var admin = `<li>
-		                               			<a href="/dashboard" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+		                               			<a href="/dashboard" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> </a>
 		                            		</li>`;
+		                        var download = `<li class="has_sub">
+					                                <a href="/download" class="waves-effect"><i class="fa fa-download"></i> <span> Download </span></a>
+					                            </li>`;
 							if(result.member){
-		                            renderPage("profile",admin)
+								download = '';
+		                            renderPage("profile",admin, download)
 							}else if(result.admin||result.master){
-		                        renderPage("index", admin)
+		                        renderPage("index", admin, download)
 							}else{
 								res.render("error",{
 									error:{

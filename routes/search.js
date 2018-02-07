@@ -16,8 +16,14 @@ router.post('/', function(req, res, next) {
 			db.collection('userlist').findOne(query1,(err, result)=>{
 				var dataFilter = [];
 				result.offerList.forEach( function(element, index) {
-					if(req.body.end <= result.offerList.length){
-						if(req.body.start<=index&&req.body.end>index){
+					if(isNaN(req.body.query)){
+						if(element.nameSet.indexOf(req.body.query)!==-1){
+							element.index = index;
+							dataFilter.push(element)
+						}
+					}else{
+						if(index == req.body.query){
+							element.index = index;
 							dataFilter.push(element)
 						}
 					}
