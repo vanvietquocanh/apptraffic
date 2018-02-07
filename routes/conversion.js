@@ -39,7 +39,6 @@ router.get("/",(req, res, next)=>{
 				"name"  : req.user.displayName,
 				"avatar": req.user.photos[0].value,
 				"admin" : admin,
-				"title" : "Special Offers",
 				"download": download
 			})
 	  	}

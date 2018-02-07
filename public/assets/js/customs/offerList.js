@@ -4,7 +4,7 @@ var sortItems = new SortItems;
 var paginationUL = $('#pag');
 var countItemsInSide = 50;
 var countItemsReportClick = 50;
-var country = $("#country");
+var filterBtn = $("#filter");
 var platform = $("#os");
 var result = $("#result");
 var download = $('#download-btn');
@@ -29,20 +29,20 @@ SortItems.prototype.getAPI = function(){
 		end   : this.countEnd
 	}
 	requestItems = $.post("/trackinglink", data, function(res) {
-		sortItems.setData(res.offerList, res.admin, false)
-		if(res.offerList.length>0&&!sortItems.searchMethod){
+		sortItems.setData(res.offerList, res.admin)
+		if(res.offerList.length===500&&!sortItems.searchMethod){
 			sortItems.countStart += 500;
 			sortItems.countEnd += 500;
 			sortItems.getAPI();
 		}
 	});
 };
-SortItems.prototype.setData = function(data, user, search){
+SortItems.prototype.setData = function(data, user){
 	if(sortItems.countStart===0){
 		this.list = data;
 		this.admin = user;
 		table.empty();
-		sortItems.render(countItemsInSide, search);		
+		sortItems.render(countItemsInSide);		
 	}else{
 		$.each(data, function(index, val) {
 			sortItems.list.push(val)
@@ -54,23 +54,18 @@ SortItems.prototype.scroll = ()=>{
 	if($(window).scrollTop() > heightScreen/1000*690){
 		table.empty();
 		countItemsInSide=countItemsInSide+50;
-		sortItems.render(countItemsInSide, false);
+		sortItems.render(countItemsInSide);
 	}
 }
-SortItems.prototype.render = function(countItem, indexOfApp){
+SortItems.prototype.render = function(countItem){
 	var elementHtml = "";
 	var affID = this.admin;
-	var lengthofListOffers = this.list.length;
 	$.each(this.list, function(index, val) {
 		var pathRedirect = `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${index}&aff_id=${affID.isID}`;
 		if(index < countItem){
-			elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">`;
-			if(indexOfApp){
-				elementHtml+= `<td class="sorting_1" tabindex="0" style="color: #fff">${val.index}</td>`;
-			}else{
-				elementHtml+=`<td class="sorting_1" tabindex="0" style="color: #fff">${index}</td>`;
-			}
-				elementHtml+=`<td class="sorting_1" tabindex="0" style="color: #fff">${val.offeridSet}</td>`;
+			elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
+							<td class="sorting_1" tabindex="0" style="color: #fff">${val.index}</td>			
+							<td class="sorting_1" tabindex="0" style="color: #fff">${val.offeridSet}</td>`;
 			if(val.platformSet==="android"){
 				elementHtml += `<td><img class="platformIcon" src="./assets/images/android.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
 			}else{
@@ -129,7 +124,30 @@ window.onscroll = function(){
     sortItems.scroll();
 }
 
-
+filterBtn.click(function(event) {
+	if(platform.val()!=="all"||sortCountry.val()!=="all"){
+		sortItems.searchMethod = true;
+		requestItems.abort();
+		sortItems.countStart = 0;
+		filterBtn.children().removeClass("fa-search").addClass('fa-spin fa-refresh');
+		var OS = "";
+		var country = "";
+		if(platform.val()!=="all"){
+			OS = platform.val();
+		}
+		if(sortCountry.val()!=="all"){
+			country = sortCountry.val();
+		}
+		let data = {
+			OS 		: OS,
+			country : country
+		}
+		$.post('/filter', data , function(data, textStatus, xhr) {
+			filterBtn.children().removeClass("fa-spin fa-refresh").addClass('fa-search');
+			sortItems.setData(data.offerList, data.admin, true)
+		});
+	}
+});
 // sortOS.change(function(event) {
 // 	let valueOSSelect = event.target.value;
 // 	let valueCountrySelect = sortCountry.val().toUpperCase();
@@ -141,17 +159,19 @@ window.onscroll = function(){
 // 	sortItems.sortList(valueCountrySelect, valueOSSelect);
 // });
 btnSearch.click(function(event) {
-	sortItems.searchMethod = true;
-	requestItems.abort();
-	sortItems.countStart = 0;
-	var data = {
-		query: search.val()
+	if(search.val()!=""){
+		sortItems.searchMethod = true;
+		requestItems.abort();
+		sortItems.countStart = 0;
+		var data = {
+			query: search.val()
+		}
+		btnSearch.children().removeClass("fa-search").addClass('fa-spin fa-refresh');
+		$.post('/search', data, function(res, textStatus, xhr) {
+			btnSearch.children().removeClass("fa-spin fa-refresh").addClass('fa-search');
+			sortItems.setData(res.offerList, res.admin, true)
+		});
 	}
-	btnSearch.children().removeClass("fa-search").addClass('fa-spin fa-refresh');
-	$.post('/search', data, function(res, textStatus, xhr) {
-		btnSearch.children().removeClass("fa-spin fa-refresh").addClass('fa-search');
-		sortItems.setData(res.offerList, res.admin, true)
-	});
 });
 // refresh.click(()=>{
 // 	window.location.href = window.location.href;

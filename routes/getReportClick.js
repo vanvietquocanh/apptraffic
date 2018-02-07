@@ -34,11 +34,10 @@ router.get('/', function(req, res, next) {
 	  		var admin =`<li>
 		       			<a href="/admin" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
 		    		</li>`;
-			res.render("special",{
+			res.render("reportClick",{
 				"name"  : req.user.displayName,
 				"avatar": req.user.photos[0].value,
 				"admin" : admin,
-				"title" : "Special Offers",
 				"download": download
 			})
 	  	}

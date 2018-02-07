@@ -126,8 +126,9 @@
     margin-bottom: .4em;
 }
 #datatable-responsive_filter{
-	width: 100%;
+	width: 90%;
 	text-align: center;
+	margin: 0 auto;
 }
 .downloadbtn{
 	margin: 0.4em 0;
@@ -198,6 +199,37 @@
 .btn-cust{
 	border-top: 1px solid #999;
 }
+.filter{
+	border: none;
+	background: #10c469;
+	color: #fff;
+	width: 100%;
+	padding: .45em 2em;
+	transition: .5s;
+	margin-bottom: .4em;
+}
+.filter:hover,
+.filter:active,
+.filter:focus{
+	background: #188ae2;
+}
+.label-search{
+	display: flex;
+	width: 100%;
+	margin: 0 auto;
+}
+#search{
+	width: 85%;
+	margin-left: .5em;
+	border-radius: 1em 0 0 1em;
+}
+.custom-Search{
+	border-radius: 0 1em 1em 0;
+	width: 15%;
+}
+.sel-result{
+	margin-right: 1.8537em;
+}
 @media screen and (min-width: 678px){
 	.btn-cust{
 		line-height: 3.1em;
@@ -208,7 +240,13 @@
 		line-height: 3.2em;
 	}
 }
+.sel-addOffer{
+	transition: .5s;
+}
 @media screen and (min-width: 720px){
+	.filter{
+		width: 36.6%;
+	}
 	.custNet-hidden{
 		margin-top: 35%;
 	}
@@ -229,25 +267,70 @@
 		width: 12%;
 	}
 	.sel-mem{
-		width: 36.6%;
+		width: 62.6%;
 	}
 	.downloadbtn{
 		width: 100%;
 	}
+	.sel-addOffer{
+		width: 36.7%;
+		background: #10c469;
+		padding-bottom: .42em;
+	}
+	.sel-addOffer:hover,
+	.sel-addOffer:active,
+	.sel-addOffer:focus{
+		background: #188ae2;
+	}
+}
+@media screen and (min-width: 900px){
+	.sel-result{
+		margin-right: 2.25em;
+	}
+}
+@media screen and (min-width: 930px){
+	.sel-result{
+		margin-right: 2.34em;
+	}
+}
+@media screen and (min-width: 990px){
+	.sel-result{
+		margin-right: 2.63em;
+	}
+}
+@media screen and (min-width: 1007px){
+	.filter{
+		width: 35.6%;
+	}
 }
 @media screen and (min-width: 1024px){
+	.filter{
+		width: 16.38%;
+	}
+	.sel-OS{
+		width: 15%;
+	}
+	.sel-country{
+		width: 50%;
+	}
 	.headingfix{
 		width: 70%;
 	}
 	.sel-mem{
-		width: 37%;
+		width: 65.6%;
 	}
 	.custNet-hidden{
 		margin-top: 30%;
 	}
+	.sel-addOffer{
+		width: 33.9%;
+	}
 	.custNet-hidden-lable{
 		width: 60%;
     	margin: 0 auto;
+	}
+	.sel-result{
+		margin-right: 2.68em;
 	}
 }
 @media screen and (min-width: 1200px) {
@@ -280,6 +363,9 @@
 	}
 }
 @media screen and (min-width: 1365px){
+	.filter{
+		width: 17.9%;
+	}
 	.btn-cust{
 		width: 300%;
 		border-top: none;
@@ -310,10 +396,11 @@
 		width: 22%;
 	}
 	.sel-OS{
-		width: 7%;
+		width: 8%;
 	}
 	.sel-result{
 		width: 8%;
+		margin-right: 1.8em;
 	}
 	.sel-mem{
 		width: 45.74%;

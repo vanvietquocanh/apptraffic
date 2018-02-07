@@ -54,7 +54,7 @@
                                 <div class="notification-box">
                                     <ul class="list-inline m-b-0">
                                         <li>
-                                            <a href="javascript:void(0);" class="right-bar-toggle">
+                                            <a href="#" class="right-bar-toggle">
                                                 <i class="zmdi zmdi-notifications-none"></i>
                                             </a>
                                             <div class="noti-dot">
@@ -155,7 +155,8 @@
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="card-box table-responsive">
-                                                                            <select class="select-drop-blue sel-country" name="country" id="country">
+                                                                        <div>
+                                                                             <select class="select-drop-blue sel-country" name="country" id="country">
                                                                                     <option value="all" selected="selected">All Contry</option>
                                                                                     <option value="af">Afghanistan</option>
                                                                                     <option value="ax">Åland Islands</option>
@@ -365,16 +366,20 @@
                                                                                 <option value="android">Android</option>
                                                                                 <option value="apple">IOS</option>
                                                                             </select>
-                                                                            <select class="select-drop-blue sel-result" name="result" id="result" style="margin-right: 2em">
+                                                                            <select class="select-drop-blue sel-result" name="result" id="result">
                                                                                 <option value="">Result</option>
                                                                                 <option value="open">Open</option>
                                                                                 <option value="canno">Canno</option>
                                                                                 <option value="Unopened">Unopened</option>
                                                                             </select>
+                                                                            <button type="" id="filter" class="filter"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;Filter</button>
+                                                                        </div>
+                                                                        <div>
                                                                             <select class="select-drop-blue sel-mem" name="members" id="members">
                                                                                 <option value="">Members</option>
                                                                             </select>
                                                                             <button class="select-drop-blue sel-addOffer" id="addOffer">Add Offer</button>
+                                                                        </div>
                                                                             <a id="download">
                                                                             <div class="button-refresh downloadbtn" id="download-btn">
                                                                                 <i class="fa fa-download"></i>  Download
@@ -385,8 +390,8 @@
                                                                                     </div>
                                                                                     <div class="col-sm-3">
                                                                                         <div id="datatable-responsive_filter" class="dataTables_filter">
-                                                                                            <label>
-                                                                                                <input type="search" class="form-control input-sm" id="search" placeholder="Search...." aria-controls="datatable-responsive">
+                                                                                            <label class="label-search">
+                                                                                                <input type="search" class="form-control input-sm ip-searchfix" id="search" placeholder="Search...." aria-controls="datatable-responsive">
                                                                                                 <button id="btn-search" class="form-control input-sm custom-Search"><i class="fa fa-search"></i></button>
                                                                                             </label>
                                                                                         </div>
@@ -401,7 +406,7 @@
                                                                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="platform: activate to sort column ascending" style="width: 0px;text-align: center;">Offer ID</th>
                                                                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="platform: activate to sort column ascending" style="width: 0px;text-align: center;">Platform</th>
                                                                                                 <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Image: activate to sort column ascending" style="width: 0px;text-align: center;">Thumbnail</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 300px;">Name</th>
+                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 0px;">Name</th>
                                                                                                 <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Url: activate to sort column ascending" style="width: 650px;">Url</th>
                                                                                                 <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Payout: activate to sort column ascending" style="width: 10px;">Payout</th>
                                                                                                 <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Cap: activate to sort column ascending" style="width: 10px;">Cap</th>
