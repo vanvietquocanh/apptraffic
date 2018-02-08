@@ -23,6 +23,7 @@ router.post('/', function(req, res, next) {
 					}
 				});
 				var dataRes = {
+					mes : true,
 					admin  	 : {
 						isAdmin  : isAdmin.admin,
 						isID 	 : isAdmin.idFacebook
@@ -38,9 +39,11 @@ router.post('/', function(req, res, next) {
 		mongo.connect(pathMongodb,function(err,db){
 			assert.equal(null,err);
 				db.collection('userlist').findOne(query, function(err,result){
-					// if(result.admin){
+					if(result.admin){
 						responData(db,result)
-					// }
+					}else{
+						res.send({"mes":false})
+					}
 				assert.equal(null,err);
 				db.close();
 			});

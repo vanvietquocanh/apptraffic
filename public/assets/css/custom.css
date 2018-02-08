@@ -462,6 +462,9 @@
 		width: 38%;
 		flex-grow: 0;
 	}
+	.panel-title{
+		flex-grow: 1;
+	}
 }
 @media screen and (min-width: 1900px){
 	.headingfix{

@@ -29,11 +29,15 @@ SortItems.prototype.getAPI = function(){
 		end   : this.countEnd
 	}
 	requestItems = $.post("/trackinglink", data, function(res) {
-		sortItems.setData(res.offerList, res.admin)
-		if(res.offerList.length===500&&!sortItems.searchMethod){
-			sortItems.countStart += 500;
-			sortItems.countEnd += 500;
-			sortItems.getAPI();
+		if(res.mes){
+			sortItems.setData(res.offerList, res.admin)
+			if(res.offerList.length===500&&!sortItems.searchMethod){
+				sortItems.countStart += 500;
+				sortItems.countEnd += 500;
+				sortItems.getAPI();
+			}
+		}else {
+			console.log(res)
 		}
 	});
 };

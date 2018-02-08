@@ -24,7 +24,12 @@ router.get('/', function(req, res, next) {
  					"report" 	: [],
 					"admin"     : admin,
 					"master"    : false,
-					"member"    : false
+					"member"    : false,
+					"affiliate"	: false,
+					"aff"		: {
+						collectionApp:[],
+						lenghtApp:[]
+					}
  				}
 			mongo.connect(pathMongodb,function(err,db){
 				assert.equal(null,err);

@@ -29,6 +29,7 @@ var addBtnNetwork = $("#btnAddNetWork");
 var renderNetwork = $("#renderNetwork");
 function API() {
 	this.data;
+	this.affiliate;
 	this.member;
 	this.netWork;
 	this.custom;
