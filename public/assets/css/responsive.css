@@ -250,3 +250,31 @@ File: Responsive
 .invisible {
   display: none;
 }
+.zmdi-power{
+  transition: .5s;
+  color: #98a6ad;
+}
+.zmdi-power:hover{
+  color: #2eacd1;
+}
+#GoTop{
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  position: fixed;
+  right: 10px;
+  line-height: 1.8em;
+  background:rgba(255, 255, 255, 0);
+  bottom: 10px;
+  border: 1px solid #fff;
+  transition: .5s;
+  color: #fff;
+}
+#GoTop::before{
+  content: "\f106";
+  font-size: 2.5em;
+}
+#GoTop:hover{
+  color: #27ae60;
+  border: 1px solid #27ae60;
+}

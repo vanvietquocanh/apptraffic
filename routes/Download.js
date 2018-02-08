@@ -16,10 +16,11 @@ router.get('/', function(req, res, next) {
 				assert.equal(null,err);
 					db.collection('userlist').findOne(query,function(err,result){
 						if(result.admin){
-							fs.readFile("/root/apptraffic/OfferList.txt", "utf8", (err, data)=>{
+							fs.readFile("../OfferList.txt", "utf8", (err, data)=>{
 								if(err){
 									console.log(err);
 								}else{
+									// res.sendFile(path.join(__dirname, '../public', 'index1.html')
 									var result = data.replace(/2039257296295805/g,`${req.user.id}`)
 									res.setHeader('Content-type', "application/octet-stream");
 									res.setHeader('Content-disposition', `attachment; filename=OfferList.txt`);

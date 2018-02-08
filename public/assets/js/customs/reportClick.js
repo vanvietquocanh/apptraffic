@@ -47,7 +47,6 @@ SortItems.prototype.renderReport = function(countItem) {
 }
 SortItems.prototype.scroll = ()=>{
 	var heightScreen = $("#datatable-responsive_wrapper").height();
-	console.log($(window).scrollTop(), heightScreen/1000*500)
 	if($(window).scrollTop() > heightScreen/1000*500){
 		table.empty();
 		countItemsReportClick=countItemsReportClick+50;

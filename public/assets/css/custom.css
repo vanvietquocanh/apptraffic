@@ -119,8 +119,8 @@
 }
 .select-drop-blue{
 	width: 100%;
-    background: #188ae2;
-    color: #fff;
+    background: #fff;
+    color: #111;
     border: none;
 	padding: 0.5em;
     margin-bottom: .4em;
@@ -242,6 +242,7 @@
 }
 .sel-addOffer{
 	transition: .5s;
+	color: #fff;
 }
 @media screen and (min-width: 720px){
 	.filter{

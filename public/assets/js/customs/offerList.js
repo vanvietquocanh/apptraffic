@@ -61,7 +61,7 @@ SortItems.prototype.render = function(countItem){
 	var elementHtml = "";
 	var affID = this.admin;
 	$.each(this.list, function(index, val) {
-		var pathRedirect = `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${index}&aff_id=${affID.isID}`;
+		var pathRedirect = `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${val.index}&aff_id=${affID.isID}`;
 		if(index < countItem){
 			elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
 							<td class="sorting_1" tabindex="0" style="color: #fff">${val.index}</td>			
@@ -88,7 +88,8 @@ SortItems.prototype.render = function(countItem){
 		}
 	});
 	table.append(elementHtml);
-	// sortItems.eventDown();
+	sortItems.delEventDown();
+	sortItems.eventDown();
 	if($(".iconItems")[0].width){
 		setTimeout(()=>{
 			var widthItem = `${$(".iconItems")[0].width}px`;
@@ -110,7 +111,7 @@ SortItems.prototype.download = function(filename){
 	var text = "";
 	let affID = this.admin;
     $.each(this.list,function(index, el) {
-        text+= `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${index}&aff_id=${affID.isID}|${el.countrySet}|${el.platformSet.toUpperCase()}\r\n`;
+        text+= `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${el.index}&aff_id=${affID.isID}|${el.countrySet}|${el.platformSet.toUpperCase()}\r\n`;
     });
     var blob = new Blob([text],{type:"octet/stream"});
     var url  = window.URL.createObjectURL(blob);
@@ -120,9 +121,6 @@ SortItems.prototype.download = function(filename){
     sortItems.eventDown();
 };
 sortItems.getAPI();
-window.onscroll = function(){
-    sortItems.scroll();
-}
 
 filterBtn.click(function(event) {
 	if(platform.val()!=="all"||sortCountry.val()!=="all"){

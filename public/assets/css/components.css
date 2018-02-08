@@ -1440,3 +1440,17 @@ table.dataTable td.focus {
   right: 7px;
   top: 2px;
 }
+.fa-angle-double-left{
+  transition: .2s;
+  color: #fff;
+}
+.fa-angle-double-left:hover{
+  color: #71b6f9;
+}
+.fa-angle-double-right{
+  transition: .2s;
+  color: #fff;
+}
+.fa-angle-double-right:hover{
+  color: #71b6f9;
+}
