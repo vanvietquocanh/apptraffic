@@ -17,7 +17,7 @@ router.post('/', function(req, res, next) {
 				var dataFilter = [];
 				result.offerList.forEach( function(element, index) {
 					if(isNaN(req.body.query)){
-						if(element.nameSet.indexOf(req.body.query)!==-1){
+						if(element.nameSet.trim().toLowerCase().indexOf(req.body.query.trim().toLowerCase())!==-1){
 							element.index = index;
 							dataFilter.push(element)
 						}
