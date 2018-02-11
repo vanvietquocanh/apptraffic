@@ -23,7 +23,7 @@ File: Core
    Common
 ============= */
 body {
-  background: #253138;
+  background: #ebeff2;
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding-bottom: 60px;
@@ -32,7 +32,7 @@ body {
 html {
   position: relative;
   min-height: 100%;
-  background: #253138;
+  background: #ebeff2;
 }
 h1,
 h2,
@@ -40,7 +40,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: rgba(255, 255, 255, 0.9);
+  color: #505458;
   font-family: 'Karla', sans-serif;
   margin: 10px 0;
 }
@@ -94,6 +94,7 @@ hr {
 }
 .container {
   width: auto;
+  background: #ebeff2;
 }
 .container-alt {
   margin-left: auto;
@@ -1358,9 +1359,9 @@ blockquote.pull-right {
 }
 .button-refresh{
   padding: .5em 1em;
-  background: #188ae2;
+  background: rgb(16, 196, 105);
   color: #fff;
-  border: 1px solid #118ae2;
+  border: 1px solid rgb(16, 196, 105);
 }
 .offerlock{
   padding: .5em 1em;
@@ -1375,8 +1376,8 @@ blockquote.pull-right {
   display: block;
 }
 #download-btn:hover {
-  background: rgb(16, 196, 105);
-  border: 1px solid rgb(16, 196, 105);
+  background: #188ae2;
+  border: 1px solid #118ae2;
 }
 .custom-Search{
   background: #10c469;

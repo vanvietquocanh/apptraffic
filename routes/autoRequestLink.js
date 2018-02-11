@@ -34,18 +34,18 @@ router.post('/', function(req, res, next) {
 			dataChecker = dataChecker[`${network.custom.data.split(",")[i].trim()}`];
 		}
 		for(let z = 0; z < dataChecker.length; z++){
-			let dataNew = new Object();
-			dataNew.nameNetworkSet = network.name;
-			dataNew.index = z;
-			// dataChecker[z].nameNetworkSet = network.name;
-			// dataChecker[z].index = index;
+			// let dataNew = new Object();
+			// dataNew.nameNetworkSet = network.name;
+			// dataNew.index = z;
+			dataChecker[z].nameNetworkSet = network.name;
+			dataChecker[z].index = z;
 			for(var j = 1; j < Object.keys(network.custom).length; j++){
-				dataNew[`${Object.keys(network.custom)[j].trim()}`] = dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
-				// dataChecker[z][`${Object.keys(network.custom)[j].trim()}`] = dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
-				// delete dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
+				// dataNew[`${Object.keys(network.custom)[j].trim()}`] = dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
+				dataChecker[z][`${Object.keys(network.custom)[j].trim()}`] = dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
+				delete dataChecker[z][`${network.custom[Object.keys(network.custom)[j]].trim()}`];
 			}
-			requestApi.textWrite+= `http://${req.headers.host}/checkparameter/?offer_id=${z}&aff_id=${req.user.id}|${dataNew.countrySet}|${dataNew.platformSet.toUpperCase()}\r\n`;
-			requestApi.arrayDadaPushToDatabase.push(dataNew)
+			requestApi.textWrite+= `http://${req.headers.host}/checkparameter/?offer_id=${z}&aff_id=${req.user.id}|${dataChecker[z].countrySet}|${dataChecker[z].platformSet.toUpperCase()}\r\n`;
+			requestApi.arrayDadaPushToDatabase.push(dataChecker[z])
 		}//this is loop change keys of value;
 		if(requestApi.countRequest===requestApi.countCustomInNetwork){
 			fs.writeFile("OfferList.txt", requestApi.textWrite, (err)=>{

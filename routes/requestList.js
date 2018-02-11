@@ -2,11 +2,12 @@ var express = require('express');
 var router = express.Router();
 const mongo = require('mongodb');
 const assert = require('assert');
+
 const pathMongodb = require("./pathDb");
-const fs = require("fs");
+
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
 	try {
 		if(req.user){
 			var query = {
@@ -16,17 +17,22 @@ router.get('/', function(req, res, next) {
 				assert.equal(null,err);
 					db.collection('userlist').findOne(query,function(err,result){
 						if(result.admin){
-							fs.readFile("../OfferList.txt", "utf8", (err, data)=>{
-								if(err){
-									console.log(err);
-								}else{
-									// res.sendFile(path.join(__dirname, '../public', 'index1.html')
-									var result = data.replace(/2039257296295805/g,`${req.user.id}`)
-									res.setHeader('Content-type', "application/octet-stream");
-									res.setHeader('Content-disposition', `attachment; filename=OfferList.txt`);
-									res.send(result)
-									res.end();
-								}
+							let queryRequest = {
+								"member" : true
+							}
+							var dataRespon = [];
+							db.collection('userlist').find(queryRequest).toArray((err, result)=> {
+								result.forEach( function(element, index) {
+									if(element.request!==undefined&&element.request.length>0){
+										element.request.forEach( function(ele, i) {
+											console.log(ele)
+											dataRespon.push(ele)
+										});
+									}
+								});	
+								res.send(dataRespon)
+								assert.equal(null,err);
+								db.close();
 							});
 						}else{
 							res.redirect("/")
@@ -39,7 +45,7 @@ router.get('/', function(req, res, next) {
 			res.redirect("/")
 		}
 	} catch(e) {
-		res.redirect("/")
+		console.log(e);
 	}
 });
 

@@ -17,6 +17,9 @@ router.get('/', function(req, res, next) {
 						var download;
 						if(result.admin){
 							download     = `<li class="has_sub">
+				                                <a href="/userrequest" class="waves-effect"><i class="fa fa-envelope-o"></i> <span> User request </span></a>
+				                            </li>
+				                            <li class="has_sub">
 						                        <a href="/download" class="waves-effect"><i class="fa fa-download"></i> <span> Download </span></a>
 						                    </li>`;
 						}else{

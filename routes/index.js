@@ -22,6 +22,7 @@ router.get('/', function(req, res, next) {
  					"profile"   : req.user,
  					"timeregis" : strToday,
  					"report" 	: [],
+ 					"request" 	: [],
 					"admin"     : admin,
 					"master"    : false,
 					"member"    : false,
@@ -48,10 +49,15 @@ router.get('/', function(req, res, next) {
 		                               			<a href="/dashboard" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> </a>
 		                            		</li>`;
 		                        var download = `<li class="has_sub">
+					                                <a href="/userrequest" class="waves-effect"><i class="fa fa-envelope-o"></i> <span> User request </span></a>
+					                            </li>
+		                        				<li class="has_sub">
 					                                <a href="/download" class="waves-effect"><i class="fa fa-download"></i> <span> Download </span></a>
 					                            </li>`;
 							if(result.member){
-								download = '';
+								download = `<li class="has_sub">
+				                                <a href="/myoffers" class="waves-effect"><i class="ti ti-layout-list-post"></i> <span> My Offers </span></span></a>
+				                            </li>`;
 		                            renderPage("profile",admin, download)
 							}else if(result.admin||result.master){
 		                        renderPage("index", admin, download)

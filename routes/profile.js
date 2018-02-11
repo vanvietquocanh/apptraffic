@@ -21,7 +21,9 @@ router.get('/', function(req, res, next) {
 						                        <a href="/download" class="waves-effect"><i class="fa fa-download"></i> <span> Download </span></a>
 						                    </li>`;
 						}else{
-							download  = ``;
+							download  = `<li class="has_sub">
+			                                <a href="/myoffers" class="waves-effect"><i class="ti ti-layout-list-post"></i> <span> My Offers </span></span></a>
+			                            </li>`;
 						}
 						    renderPage(download)
 						assert.equal(null,err);

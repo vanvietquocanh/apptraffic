@@ -37,6 +37,9 @@ var conversionlist = require('./routes/apiConversionData');
 var addNetwork = require('./routes/addNetwork');
 var search = require('./routes/search');
 var postback = require('./routes/postBack');
+var routeShowRequest = require('./routes/routeShowRequest');
+var apiRequestOfUser = require('./routes/apiRequestOfUser');
+var requestList = require('./routes/requestList');
 var logout = require('./routes/logout');
 
 var app = express();
@@ -99,6 +102,9 @@ app.use('/listnetwork', listNetwork);
 app.use('/search', search);
 app.use('/updatenetwork', updateNetwork);
 app.use('/conversionlist', conversionlist);
+app.use('/userrequest', routeShowRequest);
+app.use('/userpost', apiRequestOfUser);
+app.use('/listrequest', requestList);
 app.use('/logout', logout);
 
 // catch 404 and forward to error handler

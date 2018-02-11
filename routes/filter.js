@@ -24,7 +24,9 @@ router.post('/', function(req, res, next) {
 				var dataRes = {
 					admin  	 : {
 						isAdmin  : isAdmin.admin,
-						isID 	 : isAdmin.idFacebook
+						isID 	 : isAdmin.idFacebook,
+						pending  : isAdmin.request,
+						approved : isAdmin.approved
 					},
 					offerList: dataFilter
 				}

@@ -339,15 +339,19 @@ API.prototype.addEventEditer = function(){
 		api.custom = $(event.target).attr("class").split("btn_")[1];
 		if(api.netWork.NetworkList[api.custom].custom==undefined){
 			var custom = {
-				data 	 	 : "",
-				offeridSet   : "",
-				platformSet  : "",
-				imgSet   	 : "",
-				nameSet 	 : "",
-				urlSet 	   	 : "",
-				paySet 	     : "",
-				capSet 	     : "",
-				countrySet   : ""
+				data 	 	  : "",
+				offeridSet    : "",
+				platformSet   : "",
+				imgSet   	  : "",
+				nameSet 	  : "",
+				urlSet 	   	  : "",
+				paySet 	      : "",
+				capSet 	      : "",
+				countrySet    : "",
+				categorySet   : "",
+				offerType     : "",
+				prevLink      : "",
+				descriptionSet: ""
 			}
 			api.customNetReturn(custom)
 		}else{
@@ -363,15 +367,19 @@ API.prototype.addEventEditer = function(){
 		if($("#datacust").val()&&$("#OfferID").val()&&$("#Platform").val()&&$("#Thumbnail").val()&&$("#Name").val()&&$("#Url").val()&&$("#Payout").val()&&$("#Cap").val()&&$("#Country").val()){
 			if(confirmAddCustom){
 				var dataSetToNetwork = {
-					data       : $("#datacust").val(),
-					offeridSet : $("#OfferID").val(),
-					platformSet: $("#Platform").val(),
-					imgSet     : $("#Thumbnail").val(),
-					nameSet    : $("#Name").val(),
-					urlSet     : $("#Url").val(),
-					paySet     : $("#Payout").val(),
-					capSet     : $("#Cap").val(),
-					countrySet : $("#Country").val()
+					data           : $("#datacust").val(),
+					offeridSet     : $("#OfferID").val(),
+					platformSet    : $("#Platform").val(),
+					imgSet     	   : $("#Thumbnail").val(),
+					nameSet   	   : $("#Name").val(),
+					urlSet    	   : $("#Url").val(),
+					paySet    	   : $("#Payout").val(),
+					capSet         : $("#Cap").val(),
+					countrySet     : $("#Country").val(),
+					categorySet    : $("#Category").val(),
+					offerType      : $("#OfferType").val(),
+					prevLink       : $("#PrevLink").val(),
+					descriptionSet : $("#description").val()
 				}
 				api.netWork.NetworkList[api.custom].custom = dataSetToNetwork;
 				api.loaddingAPI($("#Confirm"),"<i class='fa fa-spinner fa-pulse'></i>")
@@ -405,6 +413,10 @@ API.prototype.customNetReturn = function(custom){
 	$("#Payout").val(custom.paySet);
 	$("#Cap").val(custom.capSet);
 	$("#Country").val(custom.countrySet);
+	$("#Category").val(custom.categorySet);
+	$("#OfferType").val(custom.offerType);
+	$("#PrevLink").val(custom.prevLink);
+	$("#description").val(custom.descriptionSet);
 };
 API.prototype.setNetwork = function(data){
 	this.netWork = data;

@@ -1,5 +1,5 @@
 'use strict';
-var table = $('tbody');
+var table = $('#renderDataOffer');
 var sortItems = new SortItems;
 var paginationUL = $('#pag');
 var countItemsInSide = 50;
@@ -17,6 +17,7 @@ var search = $('#search');
 var btnSearch = $("#btn-search");
 var requestItems;
 function SortItems() {
+	this.pending;
 	this.list;
 	this.admin;
 	this.searchMethod = false;
@@ -30,19 +31,24 @@ SortItems.prototype.getAPI = function(){
 	}
 	requestItems = $.post("/trackinglink", data, function(res) {
 		if(res.mes){
-			sortItems.setData(res.offerList, res.admin)
-			if(res.offerList.length===500&&!sortItems.searchMethod){
-				sortItems.countStart += 500;
-				sortItems.countEnd += 500;
-				sortItems.getAPI();
-			}
+		console.log(res.admin)
+			sortItems.setData(res.offerList, res.admin, res.admin.pending, res.admin.approved)
+			// if(res.offerList.length===500&&!sortItems.searchMethod){
+			// 	sortItems.countStart += 500;
+			// 	sortItems.countEnd += 500;
+			// 	sortItems.getAPI();
+			// }
 		}else {
 			console.log(res)
 		}
 	});
 };
-SortItems.prototype.setData = function(data, user){
+SortItems.prototype.setData = function(data, user, pending, approved){
+	this.pending = pending;
+	this.approved = approved;
 	if(sortItems.countStart===0){
+		this.pending = pending;
+		this.approved = approved;
 		this.list = data;
 		this.admin = user;
 		table.empty();
@@ -66,40 +72,120 @@ SortItems.prototype.render = function(countItem){
 	var affID = this.admin;
 	$.each(this.list, function(index, val) {
 		var pathRedirect = `http://${window.location.href.split("//")[1].split("/")[0]}/checkparameter/?offer_id=${val.index}&aff_id=${affID.isID}`;
-		if(index < countItem){
-			elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
-							<td class="sorting_1" tabindex="0" style="color: #fff">${val.index}</td>			
-							<td class="sorting_1" tabindex="0" style="color: #fff">${val.offeridSet}</td>`;
-			if(val.platformSet==="android"){
-				elementHtml += `<td><img class="platformIcon" src="./assets/images/android.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
-			}else{
-				elementHtml += `<td><img class="platformIcon" src="./assets/images/apple.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
-			}
-				elementHtml += `<td><img src="${val.imgSet}" class="iconItems" alt="" style="width: 30px;border-radius:15em;"></td>
-								<td class="showItems-name">${val.nameSet}</td>`;
-			if(affID.isAdmin){
-				elementHtml += `<td style="color: #fff;">${val.urlSet}</td>`;
-			}else{
-				elementHtml += `<td style="color: #fff;">${pathRedirect}</td>`;
-			}
-				elementHtml += `<td>${val.paySet}</td>
-								<td>${val.capSet}</td>
-								<td style="max-width:10px;">${val.countrySet}</td>
-								<td> Click </td>
-								<td> Conversion </td>
-								<td> CVR </td>
-							</tr>`;
+		elementHtml+=  `<div class="offerItems">
+				            <ul class="offerItems-nonePd block-img">
+				                <img class="image-logo" src="${val.imgSet}" alt="">
+				                <div class="respon-checkbox">
+				                    <div class="checkbox checkbox-primary">
+				                        <input id="checkbox2" type="checkbox" name="" value="">
+				                        <label for="checkbox2">
+				                        </label>
+				                    </div>
+				                </div>
+				            </ul>
+				            <ul class="offerItems-nonePd block-name-platform">
+				                <ul class="container-name-platform fix-margin">`;
+		switch (val.platformSet) {
+			case "android":
+				elementHtml += `<li class="style-list-of-items style-plat"><img class="img-opacity" src="./assets/images/android.png" alt=""></li>`;
+				break;
+			case "ios":
+				elementHtml += `<li class="style-list-of-items style-plat"><img class="img-opacity" src="./assets/images/apple.png" alt=""></li>`;
+				break;
 		}
+				elementHtml += `<li class="style-list-of-items style-name"><a class="text-nameApp" href="">${val.nameSet}</a></li>
+				                </ul>
+				                <li class="style-list-of-items flex-items fixline-text">
+				                    <div class="content-info flex-left id-prevlink content-flex">
+				                        <ul class="fix-margin custom-margin-respone">
+				                        	<a class="text-block" href="">#${val.index}</a>
+				                        </ul>
+				                        <ul class="fix-margin custom-margin-respone"><a class="paytext" href="">$${new Number(val.paySet)}</a></ul>
+				                    </div>
+				                    <div class="content-info flex-left id-prevlink content-flex">
+				                        <ul class="fix-margin "><a class="color-green prelink" href="${val.prevLink}"><i class="fa fa-external-link-square"></i>Preview</a></ul>
+				                        <ul class="fix-margin "><a class="upper-case text-block" href="">${val.offerType}</a></ul>
+				                    </div>
+				                    <div class="content-info flex-left last-info line-1366 click-show-${index} goals-bnt content-flex">
+				                        <ul class="fix-margin custom-margin-respone">
+				                            <li class="flex-left" href="">KPIs<a class="box-green">!</a></li>
+											<ul class="fix-margin-content-goals">
+												<a style='display: none; line-height: 1.2em;'>${val.descriptionSet}</a>
+											</ul>
+				                        </ul>
+				                    </div>
+				                    <div class="content-info maxwidth-size line-1366 content-flex country-size-block">
+				                        <ul class="offerItems-nonePd fix-margin flex-left country-size">
+				                            <li class="style-list-of-items">
+				                                <a class="upper-case text-block" href="#">${val.countrySet}</a>
+				                            </li>
+				                            <li class="style-list-of-items">`;
+		if(val.categorySet===""){
+				elementHtml +=		`<a class="" href="#">${val.categorySet}</a>`;
+		}else{
+				elementHtml +=		`<a class="boxcategory" href="#">${val.categorySet}</a>`;
+		}
+				elementHtml +=		`</li>
+				                        </ul>
+				                    </div>
+				                    <div class="content-info center-btn content-flex resize-btn">
+				                        <ul class="offerItems-nonePd container-btn">
+				                            <button class="btn-content-request requestapp-${index}">
+				                                <i class="fa fa-shopping-cart m-r-xs icon-btn"></i>
+				                                <p class="text-btn">Request offer</p>
+				                            </button>
+				                        </ul>
+				                    </div>
+				                </li>
+				            </ul>
+				        </div>`;
 	});
 	table.append(elementHtml);
 	sortItems.delEventDown();
+	sortItems.deleventShowbtn();
 	sortItems.eventDown();
-	if($(".iconItems")[0].width){
-		setTimeout(()=>{
-			var widthItem = `${$(".iconItems")[0].width}px`;
-			$(".platformIcon").css("width",)
-		},200)
+	sortItems.eventShowbtn();
+	sortItems.pending.forEach((items, index)=>{
+		$(`.requestapp-${items.offerId}`).children("i").removeClass('fa-shopping-cart').addClass('fa-spinner fa-pulse');
+		$(`.requestapp-${items.offerId}`).css("background","#10c469");
+		$(`.requestapp-${items.offerId}`).children("p").html("Pending");
+		$(`.requestapp-${items.offerId}`).unbind("click");
+	})
+};
+SortItems.prototype.deleventShowbtn = function(){
+	$(".btn-content-request").unbind('click')
+}
+SortItems.prototype.reqAPIApp = function(data, event){
+	try {
+		$.post('/userpost', data, function(data, textStatus, xhr) {
+			if(data=="ok"){
+			}
+		});
+	} catch(e) {
+		sortItems.reqAPIApp(data, event)
 	}
+}
+SortItems.prototype.eventShowbtn = function(){
+	$(".btn-content-request").click(function(event) {
+		$(`.${event.currentTarget.classList[1]}`).unbind('click');
+		$(`.${event.currentTarget.classList[1]}`).children("i").removeClass('fa-shopping-cart').addClass('fa-spinner fa-pulse');
+		$(`.${event.currentTarget.classList[1]}`).css("background","#10c469");
+		$(`.${event.currentTarget.classList[1]}`).children("p").html("Pending");
+		var data = {
+			offerId : event.currentTarget.classList[1].split("requestapp-")[1]
+		}
+		sortItems.reqAPIApp(data, event)
+	});
+	$(".goals-bnt").click(function(event) {
+		var itemsClick = $(`.${$(event.target).parent().parent().attr("class").split("content-info flex-left last-info line-1366 ")[1].split(" ")[0]}`);
+		if(itemsClick.attr("class").indexOf("active")!==-1){
+			itemsClick.children().children('ul').children().fadeOut("slow");
+			itemsClick.removeClass('active')
+		}else{
+			itemsClick.addClass('active')
+			itemsClick.children().children('ul').children().fadeIn("slow");
+		}
+	});
 };
 SortItems.prototype.eventDown = function(){
 	tagDownload.click(function(event) {
@@ -146,7 +232,7 @@ filterBtn.click(function(event) {
 		}
 		$.post('/filter', data , function(data, textStatus, xhr) {
 			filterBtn.children().removeClass("fa-spin fa-refresh").addClass('fa-search');
-			sortItems.setData(data.offerList, data.admin, true)
+			sortItems.setData(data.offerList, data.admin, res.admin.pending, res.admin.approved)
 		});
 	}
 });
@@ -161,7 +247,7 @@ btnSearch.click(function(event) {
 		btnSearch.children().removeClass("fa-search").addClass('fa-spin fa-refresh');
 		$.post('/search', data, function(res, textStatus, xhr) {
 			btnSearch.children().removeClass("fa-spin fa-refresh").addClass('fa-search');
-			sortItems.setData(res.offerList, res.admin, true)
+			sortItems.setData(res.offerList, res.admin, res.admin.pending, res.admin.approved)
 		});
 	}
 });
